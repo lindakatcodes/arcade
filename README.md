@@ -1,8 +1,16 @@
-# Welcome to [Astro](https://astro.build)
+# Welcome to the Arcade!!
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
+A collection of playable games, created in different flavors of JavaScript.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Games List
+
+- Code Breaker: Guess the numbers to break the code! (to add)
+- Snake: The classic phone game. Move a growing snake around the screen to collect food. Don't hit yourself! (to add)
+- Trivia: Answer multiple choice questions in form style. (in progress)
+- Pokemon-Playground: Pick a team of Pokemon and send them into randomly generated battles! (in progress)
+- Picross: Create pixel images by completing the puzzle. (todo)
+- Tic Tac Toe: Can you connect three Xs or Os in a row? (todo)
+- Block Breaker: Bounce a ball off a paddle and break bricks! (todo)
 
 ## 🚀 Project Structure
 
