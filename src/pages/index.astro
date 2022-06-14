@@ -1,9 +1,15 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '@layouts/Layout.astro';
+import Machine from '@components/Machine.astro';
+import { gamesData } from '@helpers/games';
 ---
+
 <Layout title="Linda's Arcade!">
 	<main>
 		<h1>Welcome to the Arcade!</h1>
+    <section class="game-machines">
+      {gamesData.map((game) => (<Machine game={game} ></Machine>))}
+    </section>
 	</main>
 </Layout>
 
@@ -15,4 +21,8 @@ import Layout from '../layouts/Layout.astro';
     padding: 1em;
 		max-width: 60ch;
 	}
+
+  .game-machines {
+    border: 1px solid var(--accent-color-blue);
+  }
 </style>

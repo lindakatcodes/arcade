@@ -1,0 +1,26 @@
+---
+import type { GameType } from "@helpers/games";
+
+export interface Props {
+  game: GameType
+}
+
+const { game } = Astro.props as Props;
+---
+
+<article>
+  <h2>{ game.title }</h2>
+  <img src={game.photo} alt={game.photoAlt} />
+  <ul>
+    {game.tags.map((tag) => (
+      <li class="button">{tag}</li>
+    ))}
+  </ul>
+  <p>{game.tagline}</p>
+</article>
+
+<style>
+/* @import '@styles/global.css'; */
+
+
+</style>
