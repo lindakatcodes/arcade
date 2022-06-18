@@ -8,7 +8,7 @@ export interface Props {
 const { game } = Astro.props as Props;
 ---
 
-<article>
+<article class="machine">
   <h2>{ game.title }</h2>
   <img src={game.photo} alt={game.photoAlt} />
   <ul>
@@ -20,7 +20,29 @@ const { game } = Astro.props as Props;
 </article>
 
 <style>
-/* @import '@styles/global.css'; */
+  /* @import '../styles/global.css'; */
 
+   .machine {
+    border: 1px solid var(--accent-color-pink);
+    display: flex;
+    flex-direction: column;
+  }
 
+  h2 {
+    text-align: center;
+    border-top: 1px dashed var(--accent-color-yellow);
+    border-bottom: 1px dashed var(--accent-color-yellow);
+    padding: 5%;
+    margin-top: 10px;
+  }
+
+  img {
+    width: 65%;
+    aspect-ratio: 4/3;
+    margin: 0 auto;
+  }
+
+  p {
+    padding: 0 8%;
+  }  
 </style>
