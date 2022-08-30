@@ -1,0 +1,115 @@
+---
+import '../scripts/snake';
+---
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Snake Game!</title>
+  <meta name="description" content="A JS and Canvas interpretation of the classic phone game">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <h1 class="pageTitle">Snake!</h1>
+  <div class="gameUi">
+    <p class="score"></p>
+    <p class="gameOver"></p>
+    <button class="start" type="button">Start Game</button>
+  </div>
+  <div class="guide">
+    <details class="rules">
+      <summary>How to play:</summary>
+      - You are the small round dot, the snake! Your goal is to eat as many of the green square food pieces as you can,
+      <em>without</em> hitting the sides or your body.
+      <br>
+      - Your body grows longer with each piece of food you eat. Hit the edges or yourself and the game is over!
+      <br>
+      - Move the snake with the arrow keys. You can hold an arrow down to continue in the same direction. This version
+      does not run automatically, so you can take your time if you need to!
+    </details>
+  </div>
+  <div class="canvasWrap" tab-index="0">
+    <canvas width="800" height="1000" id="snake-body"></canvas>
+    <canvas width="800" height="1000" id="food"></canvas>
+  </div>
+</body>
+
+</html>
+
+<style>
+  html {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+
+.pageTitle {
+  text-align: center;
+  width: 100vw;
+}
+
+.gameUi {
+  display: flex;
+  justify-content: space-around;
+  width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.num {
+  font-weight: bold;
+  color: darkorchid;
+}
+
+.start {
+  padding: 3% 1.5%;
+  align-self: center;
+  background:#2e86c1;
+  color: white;
+}
+
+.disabled {
+  background: darkgray;
+}
+
+.guide {
+  width: 400px;
+  font-size: 1.1rem;
+  margin-bottom: 1%;
+}
+
+.canvasWrap {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+canvas {
+  border: 5px solid darkorchid;
+  border-radius: 10px;
+  width: 400px;
+  height: 500px;
+  position: absolute;
+}
+
+#snake-body {
+  z-index: 1;
+}
+
+#food {
+  z-index: 2;
+}
+</style>

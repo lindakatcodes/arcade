@@ -17,6 +17,7 @@ const { game } = Astro.props as Props;
     ))}
   </ul>
   <p>{game.tagline}</p>
+  <a href={game.link}>Play {game.title}</a>
 </article>
 
 <style>
