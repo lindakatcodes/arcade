@@ -1,7 +1,9 @@
 :root {
   --base-color: #31175b;
+  --base-color-darker: #1a0c30;
   --text-color: #edf1fa;
   --accent-color-pink: #da62c4;
+  --accent-color-pink-darker: #ac2893;
   --accent-color-yellow: #f4d752;
   --accent-color-blue: #229fff;
   --accent-color-purple: #4f39fa;
