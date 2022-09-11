@@ -4,6 +4,7 @@ export interface GameType {
   tagline: string;
   tags: string[];
   title: string;
+  link: string;
 }
 
 export const gamesData: GameType[] = [
@@ -15,5 +16,6 @@ export const gamesData: GameType[] = [
       "The classic phone game - eat the food without touching your tail!",
     tags: ["javascript", "canvas"],
     title: "Snake",
+    link: "./snake",
   },
 ];

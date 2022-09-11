@@ -2,47 +2,105 @@
 import type { GameType } from "@helpers/games";
 
 export interface Props {
-  game: GameType
+  game: GameType;
 }
 
 const { game } = Astro.props as Props;
 ---
 
 <article class="machine">
-  <h2>{ game.title }</h2>
+  <h2>{game.title}</h2>
   <img src={game.photo} alt={game.photoAlt} />
-  <ul>
-    {game.tags.map((tag) => (
-      <li class="button">{tag}</li>
-    ))}
-  </ul>
-  <p>{game.tagline}</p>
+  <div class="divider"></div>
+  <div class="panel">
+    <div class="panel-art"></div>
+    <a href={game.link}>Play!</a>
+  </div>
 </article>
 
 <style>
   /* @import '../styles/global.css'; */
 
-   .machine {
-    border: 1px solid var(--accent-color-pink);
+  .machine {
+    border: 4px groove var(--accent-color-yellow);
     display: flex;
     flex-direction: column;
+    max-width: 350px;
+    box-shadow: -35px -12px 10px var(--base-color-darker);
+    background-color: #31175b;
+    background-image: url("data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 66' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 16c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zm33.414-6l5.95-5.95L45.95.636 40 6.586 34.05.636 32.636 2.05 38.586 8l-5.95 5.95 1.414 1.414L40 9.414l5.95 5.95 1.414-1.414L41.414 8zM40 48c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zM9.414 40l5.95-5.95-1.414-1.414L8 38.586l-5.95-5.95L.636 34.05 6.586 40l-5.95 5.95 1.414 1.414L8 41.414l5.95 5.95 1.414-1.414L9.414 40z' fill='%23472778' fill-opacity='0.96' fill-rule='evenodd'/%3E%3C/svg%3E");
   }
 
   h2 {
     text-align: center;
-    border-top: 1px dashed var(--accent-color-yellow);
-    border-bottom: 1px dashed var(--accent-color-yellow);
+    border-top: 4px double var(--accent-color-yellow);
+    border-bottom: 4px double var(--accent-color-yellow);
     padding: 5%;
-    margin-top: 10px;
+    margin-top: 6px;
   }
 
   img {
-    width: 65%;
+    width: 87%;
     aspect-ratio: 4/3;
     margin: 0 auto;
+    border: 9px ridge var(--base-color);
+  }
+
+  .divider {
+    height: 33px;
+    border-bottom: 4px double var(--accent-color-yellow);
+  }
+
+  .panel {
+    border-radius: 12px;
+    margin: 5% auto 30%;
+    background-color: var(--base-color-darker);
+    width: 95%;
+    height: 100px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
   }
 
   p {
     padding: 0 8%;
-  }  
+  }
+
+  ul {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+  }
+
+  li {
+    border-radius: 50%;
+    list-style-type: none;
+    background-color: var(--accent-color-blue);
+    word-break: break-all;
+    padding: 4%;
+    width: 13%;
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  a {
+    background-color: var(--accent-color-pink);
+    padding: 3%;
+    color: var(--base-color-darker);
+    font-weight: bold;
+    font-size: 1.2rem;
+    width: 40%;
+    justify-self: end;
+    text-align: center;
+    text-decoration: none;
+    margin: 7%;
+    border-radius: 20px;
+    border: 3px groove var(--accent-color-pink);
+    transition: all 0.3s;
+  }
+
+  a:active {
+    border: 3px inset var(--accent-color-pink-darker);
+    background-color: var(--accent-color-pink-darker);
+  }
 </style>
