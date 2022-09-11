@@ -1,17 +1,12 @@
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Snake Game!</title>
-    <meta
-      name="description"
-      content="A JS and Canvas interpretation of the classic phone game"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
+---
+import GamePage from "@layouts/GamePage.astro";
+import { gamesData } from "@helpers/games";
 
-  <body>
-    <h1 class="pageTitle">Snake!</h1>
+const game = gamesData.find((game) => game.title === "Snake");
+---
+
+<GamePage title="Snake!" gameInfo={game}>
+  <main>
     <div class="gameUi">
       <p class="score"></p>
       <p class="gameOver"></p>
@@ -284,20 +279,11 @@
       // start game on load
       startGame();
     </script>
-  </body>
-</html>
-
+  </main>
+</GamePage>
 <style>
-  html {
-    margin: 0;
-    padding: 0;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
+  main {
+    margin-top: 50px;
     width: 100vw;
     display: grid;
     align-items: center;

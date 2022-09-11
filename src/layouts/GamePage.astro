@@ -1,0 +1,44 @@
+---
+import Header from "@components/Header.astro";
+import { GameType } from "@helpers/games";
+
+export interface Props {
+  title: string;
+  gameInfo: GameType;
+}
+
+const { title, gameInfo } = Astro.props as Props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="https://fav.farm/👾" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Poller+One&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Header gameInfo={gameInfo} />
+    <slot />
+    <style>
+      @import "../styles/global.css";
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+    </style>
+  </body>
+</html>
