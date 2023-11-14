@@ -8,7 +8,6 @@
     "build": "astro build",
     "preview": "astro preview"
   },
-  "dependencies": {},
   "devDependencies": {
     "@astrojs/react": "^3.0.4",
     "@astrojs/vue": "^3.0.4",

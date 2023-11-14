@@ -1,20 +1,28 @@
 ---
-import { GameType } from "@helpers/games";
+import { getEntry } from 'astro:content';
 
-export interface Props {
-  gameInfo: GameType;
+interface Props {
+  gameId: string,
 }
 
-const { gameInfo } = Astro.props as Props;
+const defaultData = {
+  data: { 
+    title: 'default', 
+    tags: ['<3', 'your', 'data']
+  }
+}
+
+const { gameId } = Astro.props;
+const gameInfo = await getEntry('games', gameId) || defaultData;
 ---
 
 <header>
   <div>
     <a href="/"> 🠔 Back to the arcade</a>
-    <p>{gameInfo.title}</p>
+    <p>{gameInfo!.data.title}</p>
     <ul class="tags">
       Built with:
-      {gameInfo.tags.map((tag) => <li> - {tag}</li>)}
+      {gameInfo!.data.tags.map((tag) => <li> - {tag}</li>)}
     </ul>
   </div>
 </header>
