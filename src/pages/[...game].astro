@@ -1,0 +1,22 @@
+---
+import { getCollection } from "astro:content";
+import GamePage from "@layouts/GamePage.astro";
+
+export async function getStaticPaths() {
+  const games = await getCollection("games");
+  return games.map((game) => {
+    return {
+      params: { game: game.id },
+      props: { gameId: game.id, game },
+    };
+  });
+}
+
+const { game, gameId } = Astro.props;
+const fileName = game.data.title.replaceAll(" ", "");
+const GameComponent = await import(`../components/${fileName}.astro`);
+---
+
+<GamePage title={game.data.title} gameId={gameId}>
+  <GameComponent.default />
+</GamePage>

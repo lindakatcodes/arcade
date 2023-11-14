@@ -1,26 +1,25 @@
 ---
-import type { GameType } from "@helpers/games";
+import type { CollectionEntry } from 'astro:content';
 
 export interface Props {
-  game: GameType;
+  game: CollectionEntry<'games'>;
 }
 
-const { game } = Astro.props as Props;
+const { game } = Astro.props;
+const gameData = game.data;
 ---
 
 <article class="machine">
-  <h2>{game.title}</h2>
-  <img src={game.photo} alt={game.photoAlt} />
+  <h2>{gameData.title}</h2>
+  <img src={gameData.photo} alt={gameData.photoAlt} />
   <div class="divider"></div>
   <div class="panel">
     <div class="panel-art"></div>
-    <a href={game.link}>Play!</a>
+    <a href={gameData.link}>Play!</a>
   </div>
 </article>
 
 <style>
-  /* @import '../styles/global.css'; */
-
   .machine {
     border: 4px groove var(--accent-color-yellow);
     display: flex;

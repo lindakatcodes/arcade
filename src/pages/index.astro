@@ -1,21 +1,21 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import Machine from "@components/Machine.astro";
-import { gamesData } from "@helpers/games";
+import { getCollection } from 'astro:content';
+
+const allGames = await getCollection('games');
 ---
 
 <Layout title="Linda's Arcade!">
   <main>
     <h1>Welcome to the Arcade!</h1>
     <section class="game-machines">
-      {gamesData.map((game) => <Machine game={game} />)}
+      {allGames.map((game) => <Machine game={game} />)}
     </section>
   </main>
 </Layout>
 
 <style>
-  /* @import '../styles/global.css'; */
-
   main {
     padding: 2em;
   }
@@ -25,7 +25,6 @@ import { gamesData } from "@helpers/games";
   }
 
   .game-machines {
-    /* border: 1px solid var(--accent-color-blue); */
     display: grid;
     place-items: center;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
