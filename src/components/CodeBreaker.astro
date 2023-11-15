@@ -2,29 +2,54 @@
 import { Icon } from "astro-icon";
 ---
 
-<main class="container">
-  <div>
-    <div>
-      <p id="code" class="code">
-        <strong>????</strong>
-      </p>
-    </div>
+<main>
+  <section class="cb-rules-wrapper">
+    <h2>Objective:</h2>
+    <p>Guess the randomly generated 4 digit code.</p>
+
+    <details class="cb-rules">
+      <summary>How to play:</summary>
+      <ul>
+        <li>Each guess must consist of 4 numeric characters.</li>
+        <li>Numbers may be used more than once!</li>
+        <li>You win only if your guess is an exact match.</li>
+        <li>You lose if you fail to guess the code under 10 guesses.</li>
+        <li>
+          <Icon name="check" />
+           Indicates a number is in the correct place.
+          <li>
+            <Icon name="transfer" />
+             Indicates a number is part of the code, but not in the right
+            position.
+          </li>
+          <li>
+            <Icon name="transfer" />
+             Doesn't consider how many times a number exists in the code.
+          </li>
+          <li>
+            <Icon name="x" />
+             Indicates a number is not part of the code.
+          </li>
+        </li>
+      </ul>
+    </details>
+  </section>
+  
+  <section class="cb-game-wrapper">
+    <p id="code" class="code">
+      <strong>????</strong>
+    </p>
+    <p id="message" class="message"></p>
 
     <div id="guessing-div" class="form-inline">
       <input type="hidden" id="attempt" />
       <input type="hidden" id="answer" />
       <input id="user-guess" class="form-control" type="number" />
-      <button class="btn btn-primary" onclick="guess()">Submit Guess</button>
+      <button class="form-button" onclick="guess()">Submit Guess</button>
     </div>
 
     <div id="replay-div" style="display:none">
-      <button class="btn btn-primary" onclick="window.location.reload()"
-        >Play again?</button
-      >
-    </div>
-
-    <div>
-      <p id="message" class="message"></p>
+      <button onclick="window.location.reload()">Play again?</button>
     </div>
 
     <div id="results">
@@ -32,37 +57,7 @@ import { Icon } from "astro-icon";
         <strong>Guess Result</strong>
       </div>
     </div>
-  </div>
-
-  <div>
-    <h2>Objective:</h2>
-    <p>Guess the randomly generated 4 digit code.</p>
-
-    <h2>Rules:</h2>
-    <ul>
-      <li>Each guess must consist of 4 numeric characters.</li>
-      <li>Numbers may be used more than once!</li>
-      <li>You win only if your guess is an exact match.</li>
-      <li>You lose if you fail to guess the code under 10 guesses.</li>
-      <li>
-        <Icon name="check" />
-         Indicates a number is in the correct place.
-        <li>
-          <Icon name="transfer" />
-           Indicates a number is part of the code, but not in the right
-          position.
-        </li>
-        <li>
-          <Icon name="transfer" />
-           Doesn't consider how many times a number exists in the code.
-        </li>
-        <li>
-          <Icon name="x" />
-           Indicates a number is not part of the code.
-        </li>
-      </li>
-    </ul>
-  </div>
+  </section>
 </main>
 
 <script>
@@ -124,8 +119,8 @@ import { Icon } from "astro-icon";
     let endDiv = "</div></div>";
 
     let right = '<Icon name="check" />';
-    let close = '<Icon name="x" />';
-    let wrong = '<Icon name="transfer" />';
+    let close = '<Icon name="transfer" />';
+    let wrong = '<Icon name="x" />';
 
     let rightAnswer = answer!.value;
     let codedAnswer = "";
@@ -172,14 +167,30 @@ import { Icon } from "astro-icon";
 </script>
 
 <style>
-  .container {
-    margin: 2rem auto;
-    width: 45%;
+  main {
+    margin-top: 20px;
+    width: 100vw;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    font-size: 1.1rem;
+  }
+
+  li {
+    margin-bottom: 0.25rem;
+  }
+
+  input {
+    padding: 0.25rem;
+  }
+
+  button {
+    padding: 0.25rem;
   }
 
   .code {
     font-size: 50px;
-    padding-left: 70px;
+    text-align: center;
   }
 
   .failure {
@@ -190,20 +201,24 @@ import { Icon } from "astro-icon";
     color: #5cb85c;
   }
 
-  .form-inline {
-    margin-bottom: 10px;
-  }
-
   .message {
     font-weight: bold;
   }
 
-  li {
-    margin-bottom: 0.25rem;
+  .form-inline {
+    margin-bottom: 3.5rem;
+  }
+
+  .form-button {
+    margin-left: 0.25rem;
+  }
+
+  .cb-rules {
+    width: 520px;
   }
 
   [astro-icon] {
-    width: 24px;
+    width: 22px;
     vertical-align: text-bottom;
   }
 </style>
