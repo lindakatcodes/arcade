@@ -1,0 +1,209 @@
+---
+import { Icon } from "astro-icon";
+---
+
+<main class="container">
+  <div>
+    <div>
+      <p id="code" class="code">
+        <strong>????</strong>
+      </p>
+    </div>
+
+    <div id="guessing-div" class="form-inline">
+      <input type="hidden" id="attempt" />
+      <input type="hidden" id="answer" />
+      <input id="user-guess" class="form-control" type="number" />
+      <button class="btn btn-primary" onclick="guess()">Submit Guess</button>
+    </div>
+
+    <div id="replay-div" style="display:none">
+      <button class="btn btn-primary" onclick="window.location.reload()"
+        >Play again?</button
+      >
+    </div>
+
+    <div>
+      <p id="message" class="message"></p>
+    </div>
+
+    <div id="results">
+      <div>
+        <strong>Guess Result</strong>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2>Objective:</h2>
+    <p>Guess the randomly generated 4 digit code.</p>
+
+    <h2>Rules:</h2>
+    <ul>
+      <li>Each guess must consist of 4 numeric characters.</li>
+      <li>Numbers may be used more than once!</li>
+      <li>You win only if your guess is an exact match.</li>
+      <li>You lose if you fail to guess the code under 10 guesses.</li>
+      <li>
+        <Icon name="check" />
+         Indicates a number is in the correct place.
+        <li>
+          <Icon name="transfer" />
+           Indicates a number is part of the code, but not in the right
+          position.
+        </li>
+        <li>
+          <Icon name="transfer" />
+           Doesn't consider how many times a number exists in the code.
+        </li>
+        <li>
+          <Icon name="x" />
+           Indicates a number is not part of the code.
+        </li>
+      </li>
+    </ul>
+  </div>
+</main>
+
+<script>
+  let answer = document.getElementById("answer");
+  let attempt = document.getElementById("attempt");
+
+  function guess() {
+    let input = document.getElementById("user-guess");
+
+    if (answer!.value === "" || attempt!.value === "") {
+      setHiddenFields();
+    }
+
+    if (!validateInput(input!.value)) {
+      return false;
+    } else {
+      attempt!.value++;
+    }
+
+    let checkGuess = getResults(input!.value);
+
+    if (checkGuess) {
+      setMessage("You Win! :)");
+      showAnswer(true);
+      showReplay();
+    } else if (!checkGuess && attempt!.value >= 10) {
+      setMessage("You Lose! :(");
+      showAnswer(false);
+      showReplay();
+    } else {
+      setMessage("Incorrect, try again.");
+    }
+  }
+
+  function setHiddenFields() {
+    answer!.value = Math.floor(Math.random() * 9999).toString();
+    while (answer!.value.length < 4) {
+      answer!.value = "0" + answer!.value;
+    }
+    attempt!.value = 0;
+  }
+
+  function setMessage(text) {
+    document.getElementById("message")!.innerHTML = text;
+  }
+
+  function validateInput(param) {
+    if (param.length === 4) {
+      return true;
+    } else {
+      setMessage("Guesses must be exactly 4 characters long.");
+      return false;
+    }
+  }
+
+  function getResults(testInput) {
+    let openDiv = '<div class="row"><span class="col-md-6">';
+    let midDiv = '</span><div class="col-md-6">';
+    let endDiv = "</div></div>";
+
+    let right = '<Icon name="check" />';
+    let close = '<Icon name="x" />';
+    let wrong = '<Icon name="transfer" />';
+
+    let rightAnswer = answer!.value;
+    let codedAnswer = "";
+    let countRight = 0;
+
+    for (let i = 0; i < 4; i++) {
+      let current = testInput.charAt(i);
+      if (rightAnswer.charAt(i) === current) {
+        codedAnswer += right;
+        countRight++;
+      } else if (rightAnswer.includes(current)) {
+        codedAnswer += close;
+      } else {
+        codedAnswer += wrong;
+      }
+    }
+
+    let result = document.getElementById("results");
+
+    result!.innerHTML += openDiv + testInput + midDiv + codedAnswer + endDiv;
+
+    if (countRight === 4) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function showAnswer(gotIt) {
+    let answerLabel = document.getElementById("code");
+    answerLabel!.innerHTML = answer!.value;
+
+    if (gotIt) {
+      answerLabel!.className += " success";
+    } else {
+      answerLabel!.className += " failure";
+    }
+  }
+
+  function showReplay() {
+    document.getElementById("guessing-div")!.style.display = "none";
+    document.getElementById("replay-div")!.style.display = "block";
+  }
+</script>
+
+<style>
+  .container {
+    margin: 2rem auto;
+    width: 45%;
+  }
+
+  .code {
+    font-size: 50px;
+    padding-left: 70px;
+  }
+
+  .failure {
+    color: #d9534f;
+  }
+
+  .success {
+    color: #5cb85c;
+  }
+
+  .form-inline {
+    margin-bottom: 10px;
+  }
+
+  .message {
+    font-weight: bold;
+  }
+
+  li {
+    margin-bottom: 0.25rem;
+  }
+
+  [astro-icon] {
+    width: 24px;
+    vertical-align: text-bottom;
+  }
+</style>

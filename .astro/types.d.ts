@@ -179,10 +179,15 @@ declare module 'astro:content' {
 
 	type DataEntryMap = {
 		"games": {
+"code-breaker": {
+	id: "code-breaker";
+  collection: "games";
+  data: InferEntrySchema<"games">
+};
 "snake": {
 	id: "snake";
   collection: "games";
-  data: any
+  data: InferEntrySchema<"games">
 };
 };
 
@@ -190,5 +195,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	type ContentConfig = never;
+	type ContentConfig = typeof import("../src/content/config");
 }
