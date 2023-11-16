@@ -34,77 +34,85 @@ import { Icon } from "astro-icon";
       </ul>
     </details>
   </section>
-  
-  <section class="cb-game-wrapper">
-    <p id="code" class="code">
-      <strong>????</strong>
-    </p>
-    <p id="message" class="message"></p>
 
-    <div id="guessing-div" class="form-inline">
+  <section class="cb-game-wrapper">
+    <div>
+      <p class="final-result">????</p>
+      <p class="message"></p>
+    </div>
+
+    <div class="guessing-div form-inline">
       <input type="hidden" id="attempt" />
       <input type="hidden" id="answer" />
       <input id="user-guess" class="form-control" type="number" />
-      <button class="form-button" onclick="guess()">Submit Guess</button>
+      <button class="form-button">Submit Guess</button>
     </div>
 
-    <div id="replay-div" style="display:none">
-      <button onclick="window.location.reload()">Play again?</button>
+    <div class="replay-div hidden">
+      <button class="replay-button">Play again?</button>
     </div>
 
-    <div id="results">
+    <div class="results">
       <div>
-        <strong>Guess Result</strong>
+        <strong>Guess</strong>
       </div>
+      <div>
+        <strong>Result</strong>
+      </div>
+      <div class="text-guess"></div>
+      <div class="icon-guess"></div>
     </div>
   </section>
 </main>
 
 <script>
-  let answer = document.getElementById("answer");
-  let attempt = document.getElementById("attempt");
+  // all the query selectors
+  let answer: HTMLInputElement | null = document.querySelector("#answer");
+  let attemptCount: HTMLInputElement | null =
+    document.querySelector("#attempt");
+  let userInput: HTMLInputElement | null =
+    document.querySelector("#user-guess");
+  let results = document.querySelector(".results");
+  let finalResult = document.querySelector(".final-result");
+  let message = document.querySelector(".message");
+  let guessesBox = document.querySelector(".text-guess");
+  let encodedGuessesBox = document.querySelector(".icon-guess");
 
-  function guess() {
-    let input = document.getElementById("user-guess");
+  // event listeners for buttons
+  document.querySelector(".form-button")!.addEventListener("click", () => {
+    guess();
+  });
 
-    if (answer!.value === "" || attempt!.value === "") {
-      setHiddenFields();
-    }
+  document.querySelector(".replay-button")?.addEventListener("click", () => {
+    resetAnswerValues();
+    userInput!.value = "";
+    finalResult!.innerHTML = "????";
+    finalResult!.classList.remove("success");
+    finalResult!.classList.remove("failure");
+    message!.innerHTML = "";
+    toggleReplayButton();
+  });
 
-    if (!validateInput(input!.value)) {
-      return false;
-    } else {
-      attempt!.value++;
-    }
-
-    let checkGuess = getResults(input!.value);
-
-    if (checkGuess) {
-      setMessage("You Win! :)");
-      showAnswer(true);
-      showReplay();
-    } else if (!checkGuess && attempt!.value >= 10) {
-      setMessage("You Lose! :(");
-      showAnswer(false);
-      showReplay();
-    } else {
-      setMessage("Incorrect, try again.");
-    }
+  // helper functions
+  function toggleReplayButton() {
+    document.querySelector(".guessing-div")!.classList.toggle("hidden");
+    document.querySelector(".replay-div")!.classList.toggle("hidden");
   }
 
-  function setHiddenFields() {
+  function resetAnswerValues() {
     answer!.value = Math.floor(Math.random() * 9999).toString();
+    // if the random number is not 4 values long, pad the front with zeroes
     while (answer!.value.length < 4) {
       answer!.value = "0" + answer!.value;
     }
-    attempt!.value = 0;
+    attemptCount!.value = "0";
   }
 
   function setMessage(text) {
-    document.getElementById("message")!.innerHTML = text;
+    message!.innerHTML = text;
   }
 
-  function validateInput(param) {
+  function validateInputLength(param) {
     if (param.length === 4) {
       return true;
     } else {
@@ -113,67 +121,92 @@ import { Icon } from "astro-icon";
     }
   }
 
-  function getResults(testInput) {
-    let openDiv = '<div class="row"><span class="col-md-6">';
-    let midDiv = '</span><div class="col-md-6">';
-    let endDiv = "</div></div>";
+  function showAnswer(gotIt) {
+    finalResult!.innerHTML = answer!.value;
 
-    let right = '<Icon name="check" />';
-    let close = '<Icon name="transfer" />';
-    let wrong = '<Icon name="x" />';
+    if (gotIt) {
+      finalResult!.classList.add("success");
+    } else {
+      finalResult!.classList.add("failure");
+    }
+  }
 
-    let rightAnswer = answer!.value;
-    let codedAnswer = "";
-    let countRight = 0;
+  // sets the guess and encoded result values in the UI, then returns a boolean based on the number of correct numbers in the guess
+  function getResults(userGuess) {
+    const right = '<Icon name="check" />';
+    const mixed = '<Icon name="transfer" />';
+    const wrong = '<Icon name="x" />';
+
+    const rightAnswer = answer!.value;
+    let encodedAnswer = "";
+    let correctNumbers = 0;
 
     for (let i = 0; i < 4; i++) {
-      let current = testInput.charAt(i);
+      let current = userGuess.charAt(i);
       if (rightAnswer.charAt(i) === current) {
-        codedAnswer += right;
-        countRight++;
+        encodedAnswer += right;
+        correctNumbers++;
       } else if (rightAnswer.includes(current)) {
-        codedAnswer += close;
+        encodedAnswer += mixed;
       } else {
-        codedAnswer += wrong;
+        encodedAnswer += wrong;
       }
     }
 
-    let result = document.getElementById("results");
+    console.log(encodedAnswer)
 
-    result!.innerHTML += openDiv + testInput + midDiv + codedAnswer + endDiv;
+    guessesBox!.innerHTML += userGuess;
+    encodedGuessesBox!.innerHTML += encodedAnswer;
 
-    if (countRight === 4) {
+    if (correctNumbers === 4) {
       return true;
     } else {
       return false;
     }
   }
 
-  function showAnswer(gotIt) {
-    let answerLabel = document.getElementById("code");
-    answerLabel!.innerHTML = answer!.value;
-
-    if (gotIt) {
-      answerLabel!.className += " success";
-    } else {
-      answerLabel!.className += " failure";
+  // main game function
+  function guess() {
+    // for initial load or reset
+    if (answer!.value === "" || attemptCount!.value === "") {
+      resetAnswerValues();
     }
-  }
 
-  function showReplay() {
-    document.getElementById("guessing-div")!.style.display = "none";
-    document.getElementById("replay-div")!.style.display = "block";
+    if (!validateInputLength(userInput!.value)) {
+      return false;
+    } else {
+      attemptCount!.value += 1;
+    }
+
+    let guessIsRight: boolean = getResults(userInput!.value);
+
+    if (guessIsRight) {
+      setMessage("You Win! :)");
+      showAnswer(true);
+      toggleReplayButton();
+    } else if (!guessIsRight && Number(attemptCount!.value) >= 10) {
+      setMessage("You Lose! :(");
+      showAnswer(false);
+      toggleReplayButton();
+    } else {
+      setMessage("Incorrect, please try again.");
+    }
   }
 </script>
 
 <style>
   main {
     margin-top: 20px;
-    width: 100vw;
+    width: 100dvw;
     display: grid;
     align-items: center;
     justify-items: center;
     font-size: 1.1rem;
+  }
+
+  section {
+    width: 55dvw;
+    padding: 0.5rem;
   }
 
   li {
@@ -188,9 +221,10 @@ import { Icon } from "astro-icon";
     padding: 0.25rem;
   }
 
-  .code {
+  .final-result {
     font-size: 50px;
     text-align: center;
+    font-weight: bold;
   }
 
   .failure {
@@ -203,6 +237,9 @@ import { Icon } from "astro-icon";
 
   .message {
     font-weight: bold;
+    text-align: center;
+    height: 1.1rem;
+    margin-bottom: 1.5rem;
   }
 
   .form-inline {
@@ -215,6 +252,15 @@ import { Icon } from "astro-icon";
 
   .cb-rules {
     width: 520px;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .guessing-div,
+  .replay-div {
+    text-align: center;
   }
 
   [astro-icon] {
