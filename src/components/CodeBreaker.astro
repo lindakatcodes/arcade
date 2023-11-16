@@ -72,11 +72,11 @@ import { Icon } from "astro-icon";
     document.querySelector("#attempt");
   let userInput: HTMLInputElement | null =
     document.querySelector("#user-guess");
-  let results = document.querySelector(".results");
-  let finalResult = document.querySelector(".final-result");
-  let message = document.querySelector(".message");
-  let guessesBox = document.querySelector(".text-guess");
-  let encodedGuessesBox = document.querySelector(".icon-guess");
+  // let results = document.querySelector(".results");
+  let finalResult: HTMLElement | null = document.querySelector(".final-result");
+  let message: HTMLElement | null = document.querySelector(".message");
+  let guessesBox: HTMLElement | null = document.querySelector(".text-guess");
+  let encodedGuessesBox: HTMLElement | null = document.querySelector(".icon-guess");
 
   // event listeners for buttons
   document.querySelector(".form-button")!.addEventListener("click", () => {
@@ -132,10 +132,10 @@ import { Icon } from "astro-icon";
   }
 
   // sets the guess and encoded result values in the UI, then returns a boolean based on the number of correct numbers in the guess
-  function getResults(userGuess) {
-    const right = '<Icon name="check" />';
-    const mixed = '<Icon name="transfer" />';
-    const wrong = '<Icon name="x" />';
+  function getResults(userGuess: string) {
+    const right = '<Icon name="check"></Icon>';
+    const mixed = '<Icon name="transfer"></Icon>';
+    const wrong = '<Icon name="x"></Icon>';
 
     const rightAnswer = answer!.value;
     let encodedAnswer = "";
