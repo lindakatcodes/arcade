@@ -1,4 +1,5 @@
 ---
+
 ---
 
 <main>
@@ -75,7 +76,8 @@
   let finalResult: HTMLElement | null = document.querySelector(".final-result");
   let message: HTMLElement | null = document.querySelector(".message");
   let guessesBox: HTMLElement | null = document.querySelector(".text-guess");
-  let encodedGuessesBox: HTMLElement | null = document.querySelector(".icon-guess");
+  let encodedGuessesBox: HTMLElement | null =
+    document.querySelector(".icon-guess");
 
   // event listeners for buttons
   document.querySelector(".form-button")!.addEventListener("click", () => {
@@ -137,8 +139,9 @@
     const wrong = `✘`;
 
     const rightAnswer = answer!.value;
-    let encodedAnswer = document.createElement('p');
-    encodedAnswer.classList.add('detail');
+    let encodedAnswer = document.createElement("p");
+    const regularAnswer = document.createElement("p");
+    regularAnswer.innerHTML += userGuess;
 
     for (let i = 0; i < 4; i++) {
       let current = userGuess.charAt(i);
@@ -151,8 +154,12 @@
       }
     }
 
-    guessesBox!.innerHTML += `<p class="detail">${userGuess}</p>`;
-    encodedAnswer.innerHTML += `</p>`;
+    encodedAnswer.style.marginTop = '0';
+    encodedAnswer.style.marginBottom = '0.25rem';
+    regularAnswer.style.marginTop = '0';
+    regularAnswer.style.marginBottom = '0.25rem';
+
+    guessesBox!.append(regularAnswer);
     encodedGuessesBox!.append(encodedAnswer);
   }
 
@@ -160,7 +167,7 @@
   function getResults(userGuess: string) {
     let correctNumbers = 0;
     const rightAnswer = answer!.value;
-    
+
     for (let i = 0; i < 4; i++) {
       let current = userGuess.charAt(i);
       if (rightAnswer.charAt(i) === current) {
@@ -285,21 +292,18 @@
   .results {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    justify-items: center;
+    width: 30rem;
+    margin: 0 auto;
   }
 
-  .text-guess, .icon-guess {
+  .results div {
+    width: 100%;
+    text-align: center;
+  }
+
+  .text-guess,
+  .icon-guess {
     display: grid;
     grid-template-columns: 1fr;
-  }
-
-  .detail {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-  }
-
-  [astro-icon] {
-    width: 22px;
-    vertical-align: text-bottom;
   }
 </style>
