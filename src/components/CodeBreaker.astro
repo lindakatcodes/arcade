@@ -130,21 +130,20 @@
     }
   }
 
-  // sets the guess and encoded result values in the UI, then returns a boolean based on the number of correct numbers in the guess
-  function getResults(userGuess: string) {
+  // show the user a visual of their last guess and which numbers are in which position
+  function setResultDetails(userGuess: string) {
     const right = `✔`;
     const mixed = `⇄`;
     const wrong = `✘`;
 
     const rightAnswer = answer!.value;
-    let correctNumbers = 0;
     let encodedAnswer = document.createElement('p');
+    encodedAnswer.classList.add('detail');
 
     for (let i = 0; i < 4; i++) {
       let current = userGuess.charAt(i);
       if (rightAnswer.charAt(i) === current) {
         encodedAnswer.innerHTML += right;
-        correctNumbers++;
       } else if (rightAnswer.includes(current)) {
         encodedAnswer.innerHTML += mixed;
       } else {
@@ -152,9 +151,22 @@
       }
     }
 
-    guessesBox!.innerHTML += userGuess;
+    guessesBox!.innerHTML += `<p class="detail">${userGuess}</p>`;
     encodedAnswer.innerHTML += `</p>`;
     encodedGuessesBox!.append(encodedAnswer);
+  }
+
+  // returns a boolean based on the number of correct numbers in the guess
+  function getResults(userGuess: string) {
+    let correctNumbers = 0;
+    const rightAnswer = answer!.value;
+    
+    for (let i = 0; i < 4; i++) {
+      let current = userGuess.charAt(i);
+      if (rightAnswer.charAt(i) === current) {
+        correctNumbers++;
+      }
+    }
 
     if (correctNumbers === 4) {
       return true;
@@ -170,19 +182,24 @@
       resetAnswerValues();
     }
 
+    // making sure to convert here and use this when changing the value so it does math right ;)
+    let attempts = Number(attemptCount!.value);
+
     if (!validateInputLength(userInput!.value)) {
       return false;
     } else {
-      attemptCount!.value += 1;
+      attempts += 1;
     }
 
+    setResultDetails(userInput!.value);
     let guessIsRight: boolean = getResults(userInput!.value);
+    attemptCount!.value = attempts.toString();
 
     if (guessIsRight) {
       setMessage("You Win! :)");
       showAnswer(true);
       toggleReplayButton();
-    } else if (!guessIsRight && Number(attemptCount!.value) >= 10) {
+    } else if (!guessIsRight && attempts >= 10) {
       setMessage("You Lose! :(");
       showAnswer(false);
       toggleReplayButton();
@@ -256,9 +273,29 @@
     display: none;
   }
 
-  .guessing-div,
+  .guessing-div {
+    text-align: center;
+  }
+
   .replay-div {
     text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+  }
+
+  .text-guess, .icon-guess {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .detail {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
   }
 
   [astro-icon] {
