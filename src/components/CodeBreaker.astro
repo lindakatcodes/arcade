@@ -1,5 +1,4 @@
 ---
-import { Icon } from "astro-icon";
 ---
 
 <main>
@@ -15,19 +14,19 @@ import { Icon } from "astro-icon";
         <li>You win only if your guess is an exact match.</li>
         <li>You lose if you fail to guess the code under 10 guesses.</li>
         <li>
-          <Icon name="check" />
+          <span>✔</span>
            Indicates a number is in the correct place.
           <li>
-            <Icon name="transfer" />
+            <span>⇄</span>
              Indicates a number is part of the code, but not in the right
             position.
           </li>
           <li>
-            <Icon name="transfer" />
+            <span>⇄</span>
              Doesn't consider how many times a number exists in the code.
           </li>
           <li>
-            <Icon name="x" />
+            <span>✘</span>
              Indicates a number is not part of the code.
           </li>
         </li>
@@ -133,30 +132,29 @@ import { Icon } from "astro-icon";
 
   // sets the guess and encoded result values in the UI, then returns a boolean based on the number of correct numbers in the guess
   function getResults(userGuess: string) {
-    const right = '<Icon name="check"></Icon>';
-    const mixed = '<Icon name="transfer"></Icon>';
-    const wrong = '<Icon name="x"></Icon>';
+    const right = `✔`;
+    const mixed = `⇄`;
+    const wrong = `✘`;
 
     const rightAnswer = answer!.value;
-    let encodedAnswer = "";
     let correctNumbers = 0;
+    let encodedAnswer = document.createElement('p');
 
     for (let i = 0; i < 4; i++) {
       let current = userGuess.charAt(i);
       if (rightAnswer.charAt(i) === current) {
-        encodedAnswer += right;
+        encodedAnswer.innerHTML += right;
         correctNumbers++;
       } else if (rightAnswer.includes(current)) {
-        encodedAnswer += mixed;
+        encodedAnswer.innerHTML += mixed;
       } else {
-        encodedAnswer += wrong;
+        encodedAnswer.innerHTML += wrong;
       }
     }
 
-    console.log(encodedAnswer)
-
     guessesBox!.innerHTML += userGuess;
-    encodedGuessesBox!.innerHTML += encodedAnswer;
+    encodedAnswer.innerHTML += `</p>`;
+    encodedGuessesBox!.append(encodedAnswer);
 
     if (correctNumbers === 4) {
       return true;
