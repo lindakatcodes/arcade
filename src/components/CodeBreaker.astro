@@ -1,0 +1,323 @@
+---
+
+---
+
+<main>
+  <section class="cb-rules-wrapper">
+    <h2>Objective:</h2>
+    <p>Guess the randomly generated 4 digit code.</p>
+
+    <details class="cb-rules">
+      <summary>How to play:</summary>
+      <ul>
+        <li>Each guess must consist of 4 numeric characters.</li>
+        <li>Numbers may be used more than once!</li>
+        <li>You win only if your guess is an exact match.</li>
+        <li>You lose if you fail to guess the code under 10 guesses.</li>
+        <li>
+          <span>✔</span>
+           Indicates a number is in the correct place.
+          <li>
+            <span>⇄</span>
+             Indicates a number is part of the code, but not in the right
+            position.
+          </li>
+          <li>
+            <span>⇄</span>
+             Doesn't consider how many times a number exists in the code.
+          </li>
+          <li>
+            <span>✘</span>
+             Indicates a number is not part of the code.
+          </li>
+        </li>
+      </ul>
+    </details>
+  </section>
+
+  <section class="cb-game-wrapper">
+    <div>
+      <p class="final-result">????</p>
+      <p class="message"></p>
+    </div>
+
+    <form class="guessing-div form-inline">
+      <input type="hidden" id="attempt" />
+      <input type="hidden" id="answer" />
+      <input id="user-guess" class="form-control" type="number" />
+      <button class="form-button">Submit Guess</button>
+    </form>
+
+    <div class="replay-div hidden">
+      <button class="replay-button">Play again?</button>
+    </div>
+
+    <div class="results">
+      <div>
+        <strong>Guess</strong>
+      </div>
+      <div>
+        <strong>Result</strong>
+      </div>
+      <div class="text-guess"></div>
+      <div class="icon-guess"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+  // all the query selectors
+  let answer: HTMLInputElement | null = document.querySelector("#answer");
+  let attemptCount: HTMLInputElement | null =
+    document.querySelector("#attempt");
+  let userInput: HTMLInputElement | null =
+    document.querySelector("#user-guess");
+  let finalResult: HTMLElement | null = document.querySelector(".final-result");
+  let message: HTMLElement | null = document.querySelector(".message");
+  let guessesBox: HTMLElement | null = document.querySelector(".text-guess");
+  let encodedGuessesBox: HTMLElement | null =
+    document.querySelector(".icon-guess");
+
+  // event listeners for buttons
+  document.querySelector(".form-button")!.addEventListener("click", (e) => {
+    guess(e);
+  });
+
+  document.querySelector(".replay-button")?.addEventListener("click", () => {
+    resetAnswerValues();
+    userInput!.value = "";
+    finalResult!.innerHTML = "????";
+    finalResult!.classList.remove("success");
+    finalResult!.classList.remove("error");
+    message!.innerHTML = "";
+    message!.classList.remove("success");
+    message!.classList.remove("error");
+    guessesBox!.innerHTML = "";
+    encodedGuessesBox!.innerHTML = "";
+    toggleReplayButton();
+  });
+
+  // helper functions
+  function toggleReplayButton() {
+    document.querySelector(".guessing-div")!.classList.toggle("hidden");
+    document.querySelector(".replay-div")!.classList.toggle("hidden");
+  }
+
+  function resetAnswerValues() {
+    answer!.value = Math.floor(Math.random() * 9999).toString();
+    // if the random number is not 4 values long, pad the front with zeroes
+    while (answer!.value.length < 4) {
+      answer!.value = "0" + answer!.value;
+    }
+    attemptCount!.value = "0";
+  }
+
+  function setMessage(text, type?) {
+    message!.innerHTML = text;
+    if (type) {
+      if (type === 'success') {
+        message!.classList.add('success');
+        message!.classList.remove('error');
+      } else if (type === 'error') {
+        message!.classList.add('error');
+        message!.classList.remove('success');
+      }
+    }
+  }
+
+  function validateInputLength(param) {
+    if (param.length === 4) {
+      return true;
+    } else {
+      setMessage("Guesses must be exactly 4 characters long.", "error");
+      return false;
+    }
+  }
+
+  function showAnswer(gotIt) {
+    finalResult!.innerHTML = answer!.value;
+
+    if (gotIt) {
+      finalResult!.classList.add("success");
+    } else {
+      finalResult!.classList.add("error");
+    }
+  }
+
+  // show the user a visual of their last guess and which numbers are in which position
+  function setResultDetails(userGuess: string) {
+    const right = `✔`;
+    const mixed = `⇄`;
+    const wrong = `✘`;
+
+    const rightAnswer = answer!.value;
+    let encodedAnswer = document.createElement("p");
+    const regularAnswer = document.createElement("p");
+    regularAnswer.innerHTML += userGuess;
+
+    for (let i = 0; i < 4; i++) {
+      let current = userGuess.charAt(i);
+      if (rightAnswer.charAt(i) === current) {
+        encodedAnswer.innerHTML += right;
+      } else if (rightAnswer.includes(current)) {
+        encodedAnswer.innerHTML += mixed;
+      } else {
+        encodedAnswer.innerHTML += wrong;
+      }
+    }
+
+    encodedAnswer.style.marginTop = '0';
+    encodedAnswer.style.marginBottom = '0.25rem';
+    regularAnswer.style.marginTop = '0';
+    regularAnswer.style.marginBottom = '0.25rem';
+
+    guessesBox!.append(regularAnswer);
+    encodedGuessesBox!.append(encodedAnswer);
+  }
+
+  // returns a boolean based on the number of correct numbers in the guess
+  function getResults(userGuess: string) {
+    let correctNumbers = 0;
+    const rightAnswer = answer!.value;
+
+    for (let i = 0; i < 4; i++) {
+      let current = userGuess.charAt(i);
+      if (rightAnswer.charAt(i) === current) {
+        correctNumbers++;
+      }
+    }
+
+    if (correctNumbers === 4) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // main game function
+  function guess(e) {
+    e.preventDefault();
+
+    // for initial load or reset
+    if (answer!.value === "" || attemptCount!.value === "") {
+      resetAnswerValues();
+    }
+
+    // making sure to convert here and use this when changing the value so it does math right ;)
+    let attempts = Number(attemptCount!.value);
+
+    if (!validateInputLength(userInput!.value)) {
+      return false;
+    } else {
+      attempts += 1;
+    }
+
+    setResultDetails(userInput!.value);
+    let guessIsRight: boolean = getResults(userInput!.value);
+    attemptCount!.value = attempts.toString();
+
+    if (guessIsRight) {
+      setMessage("You Win! :)", "success");
+      showAnswer(true);
+      toggleReplayButton();
+    } else if (!guessIsRight && attempts >= 10) {
+      setMessage("You Lose! :(", "error");
+      showAnswer(false);
+      toggleReplayButton();
+    } else {
+      setMessage("Incorrect, please try again.");
+    }
+  }
+</script>
+
+<style>
+  main {
+    margin-top: 20px;
+    width: 100dvw;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    font-size: 1.1rem;
+  }
+
+  section {
+    width: 55dvw;
+    padding: 0.5rem;
+  }
+
+  li {
+    margin-bottom: 0.25rem;
+  }
+
+  input {
+    padding: 0.25rem;
+  }
+
+  button {
+    padding: 0.25rem;
+  }
+
+  .final-result {
+    font-size: 50px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .error {
+    color: #d9534f;
+  }
+
+  .success {
+    color: #5cb85c;
+  }
+
+  .message {
+    font-weight: bold;
+    text-align: center;
+    height: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-inline {
+    margin-bottom: 3.5rem;
+  }
+
+  .form-button {
+    margin-left: 0.25rem;
+  }
+
+  .cb-rules {
+    width: 520px;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .guessing-div {
+    text-align: center;
+  }
+
+  .replay-div {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 30rem;
+    margin: 0 auto;
+  }
+
+  .results div {
+    width: 100%;
+    text-align: center;
+  }
+
+  .text-guess,
+  .icon-guess {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+</style>
