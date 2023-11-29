@@ -41,12 +41,12 @@
       <p class="message"></p>
     </div>
 
-    <div class="guessing-div form-inline">
+    <form class="guessing-div form-inline">
       <input type="hidden" id="attempt" />
       <input type="hidden" id="answer" />
       <input id="user-guess" class="form-control" type="number" />
       <button class="form-button">Submit Guess</button>
-    </div>
+    </form>
 
     <div class="replay-div hidden">
       <button class="replay-button">Play again?</button>
@@ -72,7 +72,6 @@
     document.querySelector("#attempt");
   let userInput: HTMLInputElement | null =
     document.querySelector("#user-guess");
-  // let results = document.querySelector(".results");
   let finalResult: HTMLElement | null = document.querySelector(".final-result");
   let message: HTMLElement | null = document.querySelector(".message");
   let guessesBox: HTMLElement | null = document.querySelector(".text-guess");
@@ -80,8 +79,8 @@
     document.querySelector(".icon-guess");
 
   // event listeners for buttons
-  document.querySelector(".form-button")!.addEventListener("click", () => {
-    guess();
+  document.querySelector(".form-button")!.addEventListener("click", (e) => {
+    guess(e);
   });
 
   document.querySelector(".replay-button")?.addEventListener("click", () => {
@@ -89,8 +88,10 @@
     userInput!.value = "";
     finalResult!.innerHTML = "????";
     finalResult!.classList.remove("success");
-    finalResult!.classList.remove("failure");
+    finalResult!.classList.remove("error");
     message!.innerHTML = "";
+    guessesBox!.innerHTML = "";
+    encodedGuessesBox!.innerHTML = "";
     toggleReplayButton();
   });
 
@@ -109,15 +110,24 @@
     attemptCount!.value = "0";
   }
 
-  function setMessage(text) {
+  function setMessage(text, type?) {
     message!.innerHTML = text;
+    if (type) {
+      if (type === 'success') {
+        message!.classList.add('success');
+        message!.classList.remove('error');
+      } else if (type === 'error') {
+        message!.classList.add('error');
+        message!.classList.remove('success');
+      }
+    }
   }
 
   function validateInputLength(param) {
     if (param.length === 4) {
       return true;
     } else {
-      setMessage("Guesses must be exactly 4 characters long.");
+      setMessage("Guesses must be exactly 4 characters long.", "error");
       return false;
     }
   }
@@ -128,7 +138,7 @@
     if (gotIt) {
       finalResult!.classList.add("success");
     } else {
-      finalResult!.classList.add("failure");
+      finalResult!.classList.add("error");
     }
   }
 
@@ -183,7 +193,9 @@
   }
 
   // main game function
-  function guess() {
+  function guess(e) {
+    e.preventDefault();
+
     // for initial load or reset
     if (answer!.value === "" || attemptCount!.value === "") {
       resetAnswerValues();
@@ -203,11 +215,11 @@
     attemptCount!.value = attempts.toString();
 
     if (guessIsRight) {
-      setMessage("You Win! :)");
+      setMessage("You Win! :)", "success");
       showAnswer(true);
       toggleReplayButton();
     } else if (!guessIsRight && attempts >= 10) {
-      setMessage("You Lose! :(");
+      setMessage("You Lose! :(", "error");
       showAnswer(false);
       toggleReplayButton();
     } else {
@@ -249,7 +261,7 @@
     font-weight: bold;
   }
 
-  .failure {
+  .error {
     color: #d9534f;
   }
 
