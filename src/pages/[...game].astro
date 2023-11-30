@@ -7,16 +7,16 @@ export async function getStaticPaths() {
   return games.map((game) => {
     return {
       params: { game: game.id },
-      props: { gameId: game.id, game },
+      props: { gameId: game.id, game, scriptSrc: game.data.scriptName },
     };
   });
 }
 
-const { game, gameId } = Astro.props;
+const { game, gameId, scriptSrc } = Astro.props;
 const fileName = game.data.title.replaceAll(" ", "");
 const GameComponent = await import(`../components/${fileName}.astro`);
 ---
 
-<GamePage title={game.data.title} gameId={gameId}>
+<GamePage title={game.data.title} gameId={gameId} scriptSrc={scriptSrc}>
   <GameComponent.default />
 </GamePage>

@@ -4,5 +4,6 @@
   "tagline": "The classic phone game - eat the food without touching your tail!",
   "tags": ["JavaScript", "HTML"],
   "title": "Snake",
-  "link": "./snake"
+  "link": "./snake",
+  "scriptName": "snake-script.js"
 }

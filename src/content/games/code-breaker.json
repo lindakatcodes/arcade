@@ -4,5 +4,6 @@
   "tagline": "Crack the code in just 10 guesses!",
   "tags": ["JavaScript", "HTML", "CSS"],
   "title": "Code Breaker",
-  "link": "./code-breaker"
+  "link": "./code-breaker",
+  "scriptName": "code-breaker-script.ts"
 }

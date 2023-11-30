@@ -9,6 +9,7 @@ const gamesCollection = defineCollection({
     tags: z.array(z.string()),
     title: z.string(),
     link: z.string(),
+    scriptName: z.string().default(""),
   }),
 });
 

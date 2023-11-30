@@ -4,9 +4,12 @@ import Header from "@components/Header.astro";
 interface Props {
   title: string;
   gameId: string;
+  scriptSrc: string;
 }
 
-const { title, gameId } = Astro.props;
+const { title, gameId, scriptSrc } = Astro.props;
+const hasScript = scriptSrc !== '';
+const scriptPath = `./src/util/${scriptSrc}`;
 ---
 
 <!DOCTYPE html>
@@ -27,7 +30,9 @@ const { title, gameId } = Astro.props;
     <Header gameId={gameId} />
     <slot />
   </body>
+  {hasScript && <script src={scriptPath}></script>}
 </html>
+
 
 <style>
   @import "@styles/global.css";
