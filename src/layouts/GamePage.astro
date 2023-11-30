@@ -9,7 +9,7 @@ interface Props {
 
 const { title, gameId, scriptSrc } = Astro.props;
 const hasScript = scriptSrc !== '';
-const scriptPath = `./src/util/${scriptSrc}`;
+const scriptPath = `../util/${scriptSrc}`;
 ---
 
 <!DOCTYPE html>
