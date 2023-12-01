@@ -1,0 +1,8 @@
+{
+  "photo": "./game-photos/",
+  "photoAlt": "",
+  "tagline": "Guess the word in 6 guesses or less!",
+  "tags": ["React", "HTML", "CSS"],
+  "title": "Wordle",
+  "link": "./wordle"
+}

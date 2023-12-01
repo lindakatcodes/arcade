@@ -189,6 +189,11 @@ declare module 'astro:content' {
   collection: "games";
   data: InferEntrySchema<"games">
 };
+"wordle": {
+	id: "wordle";
+  collection: "games";
+  data: InferEntrySchema<"games">
+};
 };
 
 	};
