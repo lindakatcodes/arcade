@@ -1,0 +1,8 @@
+{
+  "photo": "./game-photos/wordle.png",
+  "photoAlt": "A white background with three sections in a column. The first section is a 5 by 6 grid of squares; the first row is filled with the letters pearl, the others are blank. Below the grid is an input with the word CHART inside it, followed by a qwerty keyboard display, with a mix of green, dark gray, and light gray backgrounds.",
+  "tagline": "Guess the word in 6 guesses or less!",
+  "tags": ["React", "HTML", "CSS"],
+  "title": "Wordle",
+  "link": "./wordle"
+}
