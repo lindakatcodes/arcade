@@ -65,62 +65,63 @@
   </section>
 </main>
 
-<script>
+<script is:inline>
+  // @ts-nocheck
   // all the query selectors
-  let answer: HTMLInputElement | null = document.querySelector("#answer");
-  let attemptCount: HTMLInputElement | null =
+  let answer = document.querySelector("#answer");
+  let attemptCount =
     document.querySelector("#attempt");
-  let userInput: HTMLInputElement | null =
+  let userInput =
     document.querySelector("#user-guess");
-  let finalResult: HTMLElement | null = document.querySelector(".final-result");
-  let message: HTMLElement | null = document.querySelector(".message");
-  let guessesBox: HTMLElement | null = document.querySelector(".text-guess");
-  let encodedGuessesBox: HTMLElement | null =
+  let finalResult = document.querySelector(".final-result");
+  let message = document.querySelector(".message");
+  let guessesBox = document.querySelector(".text-guess");
+  let encodedGuessesBox =
     document.querySelector(".icon-guess");
 
   // event listeners for buttons
-  document.querySelector(".form-button")!.addEventListener("click", (e) => {
+  document.querySelector(".form-button").addEventListener("click", (e) => {
     guess(e);
   });
 
   document.querySelector(".replay-button")?.addEventListener("click", () => {
     resetAnswerValues();
-    userInput!.value = "";
-    finalResult!.innerHTML = "????";
-    finalResult!.classList.remove("success");
-    finalResult!.classList.remove("error");
-    message!.innerHTML = "";
-    message!.classList.remove("success");
-    message!.classList.remove("error");
-    guessesBox!.innerHTML = "";
-    encodedGuessesBox!.innerHTML = "";
+    userInput.value = "";
+    finalResult.innerHTML = "????";
+    finalResult.classList.remove("success");
+    finalResult.classList.remove("error");
+    message.innerHTML = "";
+    message.classList.remove("success");
+    message.classList.remove("error");
+    guessesBox.innerHTML = "";
+    encodedGuessesBox.innerHTML = "";
     toggleReplayButton();
   });
 
   // helper functions
   function toggleReplayButton() {
-    document.querySelector(".guessing-div")!.classList.toggle("hidden");
-    document.querySelector(".replay-div")!.classList.toggle("hidden");
+    document.querySelector(".guessing-div").classList.toggle("hidden");
+    document.querySelector(".replay-div").classList.toggle("hidden");
   }
 
   function resetAnswerValues() {
-    answer!.value = Math.floor(Math.random() * 9999).toString();
+    answer.value = Math.floor(Math.random() * 9999).toString();
     // if the random number is not 4 values long, pad the front with zeroes
-    while (answer!.value.length < 4) {
-      answer!.value = "0" + answer!.value;
+    while (answer.value.length < 4) {
+      answer.value = "0" + answer.value;
     }
-    attemptCount!.value = "0";
+    attemptCount.value = "0";
   }
 
-  function setMessage(text, type?) {
-    message!.innerHTML = text;
+  function setMessage(text, type) {
+    message.innerHTML = text;
     if (type) {
       if (type === 'success') {
-        message!.classList.add('success');
-        message!.classList.remove('error');
+        message.classList.add('success');
+        message.classList.remove('error');
       } else if (type === 'error') {
-        message!.classList.add('error');
-        message!.classList.remove('success');
+        message.classList.add('error');
+        message.classList.remove('success');
       }
     }
   }
@@ -135,22 +136,22 @@
   }
 
   function showAnswer(gotIt) {
-    finalResult!.innerHTML = answer!.value;
+    finalResult.innerHTML = answer.value;
 
     if (gotIt) {
-      finalResult!.classList.add("success");
+      finalResult.classList.add("success");
     } else {
-      finalResult!.classList.add("error");
+      finalResult.classList.add("error");
     }
   }
 
   // show the user a visual of their last guess and which numbers are in which position
-  function setResultDetails(userGuess: string) {
+  function setResultDetails(userGuess) {
     const right = `✔`;
     const mixed = `⇄`;
     const wrong = `✘`;
 
-    const rightAnswer = answer!.value;
+    const rightAnswer = answer.value;
     let encodedAnswer = document.createElement("p");
     const regularAnswer = document.createElement("p");
     regularAnswer.innerHTML += userGuess;
@@ -171,14 +172,14 @@
     regularAnswer.style.marginTop = '0';
     regularAnswer.style.marginBottom = '0.25rem';
 
-    guessesBox!.append(regularAnswer);
-    encodedGuessesBox!.append(encodedAnswer);
+    guessesBox.append(regularAnswer);
+    encodedGuessesBox.append(encodedAnswer);
   }
 
   // returns a boolean based on the number of correct numbers in the guess
-  function getResults(userGuess: string) {
+  function getResults(userGuess) {
     let correctNumbers = 0;
-    const rightAnswer = answer!.value;
+    const rightAnswer = answer.value;
 
     for (let i = 0; i < 4; i++) {
       let current = userGuess.charAt(i);
@@ -199,22 +200,22 @@
     e.preventDefault();
 
     // for initial load or reset
-    if (answer!.value === "" || attemptCount!.value === "") {
+    if (answer.value === "" || attemptCount.value === "") {
       resetAnswerValues();
     }
 
     // making sure to convert here and use this when changing the value so it does math right ;)
-    let attempts = Number(attemptCount!.value);
+    let attempts = Number(attemptCount.value);
 
-    if (!validateInputLength(userInput!.value)) {
+    if (!validateInputLength(userInput.value)) {
       return false;
     } else {
       attempts += 1;
     }
 
-    setResultDetails(userInput!.value);
-    let guessIsRight: boolean = getResults(userInput!.value);
-    attemptCount!.value = attempts.toString();
+    setResultDetails(userInput.value);
+    let guessIsRight = getResults(userInput.value);
+    attemptCount.value = attempts.toString();
 
     if (guessIsRight) {
       setMessage("You Win! :)", "success");
