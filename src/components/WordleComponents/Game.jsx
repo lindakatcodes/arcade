@@ -1,5 +1,4 @@
 import React from "react";
-import { NUM_OF_GUESSES_ALLOWED } from "../Wordle.astro";
 import { checkGuess } from "../../utils/wordle-helpers";
 import { WORDS } from "../../utils/wordle-data";
 import { sample } from "../../utils/helpers";
@@ -21,7 +20,7 @@ export default function Game() {
     setGuessList(nextGuessList);
     if (guessValue === answer) {
       setGameStatus("won");
-    } else if (nextGuessList.length >= NUM_OF_GUESSES_ALLOWED) {
+    } else if (nextGuessList.length >= 6) {
       setGameStatus("lost");
     }
   }

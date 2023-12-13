@@ -1,6 +1,5 @@
 import React from "react";
 import { range } from "../../utils/helpers";
-import { WORD_LENGTH } from "../Wordle.astro";
 
 // hadn't thought of this - having another "component" within the same file
 // only decent when the component is small and only used by the main file component
@@ -12,7 +11,7 @@ function Cell({ letter, status }) {
 export default function Guess({ value, answer }) {
   return (
     <p className="guess">
-      {range(WORD_LENGTH).map((num) => (
+      {range(5).map((num) => (
         <Cell
           key={num}
           letter={value ? value[num].letter : undefined}

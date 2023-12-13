@@ -162,18 +162,18 @@
       // is this move already in our current snake, or the edge of the screen? then game over
       if (headX <= 0 || headX >= snakeX || headY <= 0 || headY >= snakeY) {
         gameStatusUi.innerHTML = `
-    Game over! <br>
-    Out of bounds.
-    `;
+        Game over! <br>
+        Out of bounds.
+        `;
         endGame();
         return;
       }
 
       if (body.find((point) => point.x === headX && point.y === headY)) {
         gameStatusUi.innerHTML = `
-    Game over! <br>
-    Hit your body.
-    `;
+        Game over! <br>
+        Hit your body.
+        `;
         endGame();
         return;
       }
@@ -187,9 +187,9 @@
           snakeCtx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
           getNewFoodPoint();
           scoreUi.innerHTML = `
-      Score:<br>
-      <span class="num">${score}</span>
-       `;
+          Score:<br>
+          <span class="num">${score}</span>
+          `;
         }
       }
 
@@ -326,7 +326,6 @@
     margin: 0 auto;
     display: flex;
     justify-content: center;
-    position: relative;
   }
 
   canvas {
