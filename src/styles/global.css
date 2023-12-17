@@ -12,15 +12,6 @@
   --font-size-xl: clamp(2.44rem, 2.38vw + 1.85rem, 3.75rem);
 }
 
-h1 {
-  font-size: var(--font-size-xl);
-  font-family: var(--display-font);
-}
-
-h2 {
-  font-size: var(--font-size-lg);
-  font-family: var(--display-font);
-}
 
 *,
 *::before,
