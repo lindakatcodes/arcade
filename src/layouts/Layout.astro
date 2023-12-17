@@ -25,14 +25,20 @@ const { title } = Astro.props as Props;
 <style>
   @import '../styles/global.css';
 
-  
-h1 {
-  font-size: var(--font-size-xl);
-  font-family: var(--display-font);
-}
+  html {
+    font-size: var(--font-size-base);
+    font-family: var(--body-font);
+    color: var(--text-color);
+    background-color: var(--base-color);
+  }
 
-h2 {
-  font-size: var(--font-size-lg);
-  font-family: var(--display-font);
-}
+  :global(h1) {
+    font-size: var(--font-size-xl);
+    font-family: var(--display-font);
+  }
+
+  :global(h2) {
+    font-size: var(--font-size-lg);
+    font-family: var(--display-font);
+  }
 </style>
