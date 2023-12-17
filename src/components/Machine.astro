@@ -3,103 +3,151 @@ import type { CollectionEntry } from 'astro:content';
 
 export interface Props {
   game: CollectionEntry<'games'>;
+  idx: number;
 }
 
-const { game } = Astro.props;
+const { game, idx } = Astro.props;
+const borderColor = getBorderColor(idx % 3);
 const gameData = game.data;
+
+function getBorderColor(num) {
+  const colors = ['green', 'pink', 'yellow'];
+  return colors[num];
+}
 ---
 
-<article class="machine">
-  <h2>{gameData.title}</h2>
-  <img src={gameData.photo} alt={gameData.photoAlt} />
-  <div class="divider"></div>
-  <div class="panel">
-    <div class="panel-art"></div>
-    <a href={gameData.link}>Play!</a>
-  </div>
-</article>
+<a href={gameData.link} class={`machine ${borderColor}`} >
+  <section class={`machine-t ${borderColor}`}>
+    <h2>{gameData.title}</h2>
+    <div class="machine-t-depth"></div>
+  </section>
+  <section class={`machine-s ${borderColor}`}>
+    <img src={gameData.photo} alt={gameData.photoAlt} />
+  </section>
+  <section class={`machine-b ${borderColor}`}>
+    <div class="machine-b-panel"></div>
+    <div class="machine-b-info">
+      <p>{gameData.tagline}</p>
+    </div>
+    <div class="machine-b-coinslot"><p>¢</p></div>
+  </section>
+</a>
 
 <style>
+
+/* 250 x 375 */
   .machine {
-    border: 4px groove var(--accent-color-yellow);
+    border-radius: 41px 0px 41px 0px / 51px 0px 51px 0px;
+    border-color: var(--c-white);
+    border-width: 4px;
+    border-style: groove;
+    width: 300px;
+    height: calc(300px * 1.5);
+    color: var(--c-white);
+    text-decoration: none;
+    display: grid;
+    grid-template-rows: 0.4fr 1fr 0.6fr;
+  }
+
+  .yellow {
+    border-color: var(--c-accent-yellow);
+  }
+
+  .pink {
+    border-color: var(--c-accent-pink);
+  }
+
+  .green {
+    border-color: var(--c-accent-green);
+  }
+
+  .machine-t {
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    padding: 0.5rem;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    max-width: 350px;
-    box-shadow: -35px -12px 10px var(--base-color-darker);
-    background-color: #31175b;
-    background-image: url("data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 66' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 16c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zm33.414-6l5.95-5.95L45.95.636 40 6.586 34.05.636 32.636 2.05 38.586 8l-5.95 5.95 1.414 1.414L40 9.414l5.95 5.95 1.414-1.414L41.414 8zM40 48c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zM9.414 40l5.95-5.95-1.414-1.414L8 38.586l-5.95-5.95L.636 34.05 6.586 40l-5.95 5.95 1.414 1.414L8 41.414l5.95 5.95 1.414-1.414L9.414 40z' fill='%23472778' fill-opacity='0.96' fill-rule='evenodd'/%3E%3C/svg%3E");
+    justify-content: center;
   }
-
-  h2 {
+  
+  .machine-t h2 {
     text-align: center;
-    border-top: 4px double var(--accent-color-yellow);
-    border-bottom: 4px double var(--accent-color-yellow);
-    padding: 5%;
-    margin-top: 6px;
+    font-size: clamp(1.25rem, 1.25rem, 100%);
   }
 
-  img {
-    width: 87%;
-    aspect-ratio: 4/3;
-    margin: 0 auto;
-    border: 9px ridge var(--base-color);
+  .machine-s {
+    margin: 0.5rem;
+    height: 8.5em;
+    border-width: 4px;
+    border-style: groove;
+  }
+  
+  .machine-s img {
+    object-fit: cover;
+    object-position: top left;
+    width: 100%;
+    height: 100%;
   }
 
-  .divider {
-    height: 33px;
-    border-bottom: 4px double var(--accent-color-yellow);
-  }
-
-  .panel {
-    border-radius: 12px;
-    margin: 5% auto 30%;
-    background-color: var(--base-color-darker);
-    width: 95%;
-    height: 100px;
+  .machine-b {
+    border-top-width: 2px;
+    border-top-style: solid;
+    padding: 0.25rem;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+    'panel panel'
+    'info coinslot';
+    grid-template-rows: 0fr 1fr;
+    grid-template-columns: 0.85fr 0.15fr;
+  }
+  
+  .machine-b-info {
+    grid-area: info;
+    padding: 0.25rem;
+    margin: 0.25rem 0.5rem 0.25rem 0.25rem;
+    display: flex;
     align-items: center;
   }
 
-  p {
-    padding: 0 8%;
-  }
-
-  ul {
-    display: flex;
-    justify-content: flex-start;
-    gap: 15px;
-  }
-
-  li {
-    border-radius: 50%;
-    list-style-type: none;
-    background-color: var(--accent-color-blue);
-    word-break: break-all;
-    padding: 4%;
-    width: 13%;
-    font-size: 0.75rem;
+  .machine-b-info p {
+    font-size: 0.85rem;
     text-align: center;
   }
 
-  a {
-    background-color: var(--accent-color-pink);
-    padding: 3%;
-    color: var(--base-color-darker);
-    font-weight: bold;
-    font-size: 1.2rem;
-    width: 40%;
-    justify-self: end;
+  .machine-b-coinslot {
+    grid-area: coinslot;
+    height: 4.5em;
+    background-color: var(--c-black);
+    border-radius: 5px;
+    position: relative;
+    font-size: 0.8rem;
     text-align: center;
-    text-decoration: none;
-    margin: 7%;
-    border-radius: 20px;
-    border: 3px groove var(--accent-color-pink);
-    transition: all 0.3s;
+    font-family: var(--display-font);
+    margin-right: 0.25rem;
+    margin-top: 0.375rem;
+
+    @media (min-width: 1200px) {
+      height: 4em;
+    }
   }
 
-  a:active {
-    border: 3px inset var(--accent-color-pink-darker);
-    background-color: var(--accent-color-pink-darker);
+  .machine-b-coinslot::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 2em;
+    left: 0.9em;
+    width: 0.4em;
+    height: 1.4em;
+    background-color: var(--c-white);
+    border-radius: 3px;
   }
+
+  @media (min-width: 1200px) {
+    .machine-b-coinslot::after {
+      left: 0.7em;
+    }
+    }
+
 </style>
