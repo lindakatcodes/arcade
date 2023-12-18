@@ -29,8 +29,8 @@ body,
   height: 100%;
   font-size: var(--font-size-base);
   font-family: var(--body-font);
-  color: var(--text-color);
-  background-color: var(--base-color);
+  color: var(--c-white);
+  background-color: var(--c-base);
 }
 
 body {
