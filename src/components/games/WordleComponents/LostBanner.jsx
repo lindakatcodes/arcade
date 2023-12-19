@@ -1,5 +1,5 @@
 import React from "react";
-import Banner from "../WordleComponents/Banner";
+import Banner from "./Banner";
 
 export default function LostBanner({ answer, handleReset }) {
   return (

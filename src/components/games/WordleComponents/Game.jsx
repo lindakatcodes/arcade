@@ -1,12 +1,12 @@
 import React from "react";
-import { checkGuess } from "../../utils/wordle-helpers";
-import { WORDS } from "../../utils/wordle-data";
-import { sample } from "../../utils/helpers";
-import GuessInput from "../WordleComponents/GuessInput";
-import GuessList from "../WordleComponents/GuessList";
-import LostBanner from "../WordleComponents/LostBanner";
-import WonBanner from "../WordleComponents/WonBanner";
-import Keyboard from "../WordleComponents/Keyboard";
+import { checkGuess } from "../../../utils/wordle-helpers";
+import { WORDS } from "../../../utils/wordle-data";
+import { sample } from "../../../utils/helpers";
+import GuessInput from "./GuessInput";
+import GuessList from "./GuessList";
+import LostBanner from "./LostBanner";
+import WonBanner from "./WonBanner";
+import Keyboard from "./Keyboard";
 
 export default function Game() {
   const [guessList, setGuessList] = React.useState([]);

@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 
 const { game, gameColor } = Astro.props;
 const fileName = game.data.title.replaceAll(" ", "");
-const GameComponent = await import(`../components/${fileName}.astro`);
+const GameComponent = await import(`../components/games/${fileName}.astro`);
 ---
 
 <GamePage game={game} gameColor={gameColor}>
