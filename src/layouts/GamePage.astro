@@ -1,44 +1,29 @@
 ---
-import Header from "@components/Header.astro";
+import MachineHead from "@components/MachineHead.astro";
+import MachinePanel from "@components/MachinePanel.astro";
+import Layout from "@layouts/Layout.astro";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  title: string;
-  gameId: string;
+  game: CollectionEntry<"games">;
+  gameColor: string;
 }
 
-const { title, gameId } = Astro.props;
+const { game, gameColor } = Astro.props;
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" href="https://fav.farm/👾" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Poller+One&display=swap"
-      rel="stylesheet"
-    />
-    <title>{title}</title>
-  </head>
-  <body>
-    <Header gameId={gameId} />
+<Layout title={game.data.title}>
+  <MachineHead name={game.data.title} gameColor={gameColor} />
+  <section class="game-screen">
     <slot />
-  </body>
-</html>
+  </section>
+  <MachinePanel gameColor={gameColor} >
+    <p>Some text for now to see where the panel is</p>
+  </MachinePanel>
+</Layout>
 
 <style>
-  @import "@styles/global.css";
-
-  html,
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
-  * {
-    box-sizing: border-box;
+  .game-screen {
+    width: 80%;
   }
 </style>

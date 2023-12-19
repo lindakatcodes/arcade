@@ -1,0 +1,29 @@
+---
+interface Props {
+  gameColor?: string;
+  name: string;
+}
+
+const { gameColor = "", name } = Astro.props;
+---
+
+<section class={`m-head ${gameColor}`}>
+  <h2>{name}</h2>
+  <div class="head-depth"></div>
+</section>
+
+<style>
+  .m-head {
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .m-head h2 {
+    text-align: center;
+    font-size: clamp(1.25rem, 1.25rem, 100%);
+  }
+</style>

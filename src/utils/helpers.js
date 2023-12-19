@@ -13,3 +13,8 @@ export const range = (start, end, step = 1) => {
   }
   return output;
 };
+
+export const getBorderColor = (num) => {
+  const colors = ["green", "pink", "yellow"];
+  return colors[num];
+};

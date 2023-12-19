@@ -1,0 +1,66 @@
+---
+interface Props {
+  gameColor?: string;
+}
+
+const { gameColor = "" } = Astro.props;
+---
+
+<section class={`m-panel ${gameColor}`}>
+  <div class="m-panel-panel"></div>
+  <div class="m-panel-info">
+    <slot />
+  </div>
+  <div class="m-panel-coinslot"><p>¢</p></div>
+</section>
+
+<style>
+  .m-panel {
+    border-top-width: 2px;
+    border-top-style: solid;
+    padding: 0.25rem;
+    display: grid;
+    grid-template-areas:
+      "panel panel"
+      "info coinslot";
+    grid-template-rows: 0fr 1fr;
+    grid-template-columns: 0.85fr 0.15fr;
+  }
+
+  .m-panel-info {
+    grid-area: info;
+    padding: 0.25rem;
+    margin: 0.25rem 0.5rem 0.25rem 0.25rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .m-panel-coinslot {
+    grid-area: coinslot;
+    height: 4.5em;
+    background-color: var(--c-black);
+    border-radius: 5px;
+    position: relative;
+    font-size: 0.8rem;
+    text-align: center;
+    font-family: var(--display-font);
+    margin-right: 0.25rem;
+    margin-top: 0.375rem;
+  }
+
+  .m-panel-coinslot p {
+    margin: 0.125rem 0 0;
+  }
+
+  .m-panel-coinslot::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 2em;
+    left: calc(50% - 0.2em);
+    width: 0.4em;
+    height: 1.4em;
+    background-color: var(--c-white);
+    border-radius: 3px;
+  }
+</style>

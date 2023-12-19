@@ -1,6 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Machine from "@components/Machine.astro";
+import GameCard from "@components/GameCard.astro";
 import { getCollection } from 'astro:content';
 
 const allGames = await getCollection('games');
@@ -13,7 +13,7 @@ const allGames = await getCollection('games');
       <h1>Arcade!</h1>
     </section>
     <section class="games-wrapper">
-      {allGames.map((game, idx) => <Machine game={game} idx={idx} />)}
+      {allGames.map((game, idx) => <GameCard game={game} idx={idx} />)}
     </section>
   </main>
 </Layout>

@@ -69,3 +69,15 @@ h6 {
 #__next {
   isolation: isolate;
 }
+
+.yellow {
+  border-color: var(--c-accent-yellow);
+}
+
+.pink {
+  border-color: var(--c-accent-pink);
+}
+
+.green {
+  border-color: var(--c-accent-green);
+}
