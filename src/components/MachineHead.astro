@@ -2,28 +2,58 @@
 interface Props {
   gameColor?: string;
   name: string;
+  shouldShow?: boolean;
 }
 
-const { gameColor = "", name } = Astro.props;
+const { gameColor = "", name, shouldShow = false } = Astro.props;
 ---
 
-<section class={`m-head ${gameColor}`}>
-  <h2>{name}</h2>
-  <div class="head-depth"></div>
+<section class="m-head">
+  <div class:list={[`head-name ${gameColor}`, { 'hn-borders': shouldShow }]}>
+    <h2>{name}</h2>
+  </div>
+  <div class:list={["head-depth", {'hd-visible': shouldShow }]}></div>
 </section>
 
 <style>
   .m-head {
-    border-bottom-width: 2px;
-    border-bottom-style: solid;
-    padding: 0.5rem;
+    /* padding: 0 0.5rem; */
     display: flex;
     flex-direction: column;
     justify-content: center;
+    perspective: 700px;
+  }
+  
+  .head-name {
+    border-width: 2px;
+    border-style: solid;
+    padding: 0.5rem;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
   }
 
-  .m-head h2 {
+  .head-name h2 {
     text-align: center;
     font-size: clamp(1.25rem, 1.25rem, 100%);
+  }
+
+  .head-depth {
+    display: none;
+  }
+
+  .hd-visible {
+    display: block;
+    margin: 0 auto;
+    background-color: var(--c-black);
+    width: 98%;
+    height: 50px;
+    transform: rotateX(-30deg) translateY(-2px);
+  }
+
+  .hn-borders {
+    border-left-color: var(--c-black);
+    border-right-color: var(--c-black);
+    border-top-color: var(--c-black);
   }
 </style>

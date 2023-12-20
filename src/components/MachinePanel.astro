@@ -1,42 +1,61 @@
 ---
 interface Props {
   gameColor?: string;
+  shouldShow?: boolean;
 }
 
-const { gameColor = "" } = Astro.props;
+const { gameColor = "", shouldShow = false } = Astro.props;
 ---
 
-<section class={`m-panel ${gameColor}`}>
-  <div class="m-panel-panel"></div>
-  <div class="m-panel-info">
-    <slot />
+<section class="m-panel">
+  <div class:list={["panel-dash", { "pd-visible": shouldShow }]}>
+    <div class="dash-dpad"></div>
+    <div class="dash-buttons">
+      <div class="g1">
+        <div class="dash-button b1"></div>
+        <div class="dash-button b2"></div>
+      </div>
+      <div class="g2">
+        <div class="dash-button b3"></div>
+        <div class="dash-button b4"></div>
+      </div>
+    </div>
   </div>
-  <div class="m-panel-coinslot"><p>¢</p></div>
+  <div class:list={[`panel-front ${gameColor}`, { "pf-borders": shouldShow }]}>
+    <div class="panel-info">
+      <slot />
+    </div>
+    <div class="panel-coinslot"><p>¢</p></div>
+  </div>
 </section>
 
 <style>
   .m-panel {
-    border-top-width: 2px;
-    border-top-style: solid;
-    padding: 0.25rem;
-    display: grid;
-    grid-template-areas:
-      "panel panel"
-      "info coinslot";
-    grid-template-rows: 0fr 1fr;
-    grid-template-columns: 0.85fr 0.15fr;
+    /* padding: 0 0.5rem; */
+    display: flex;
+    flex-direction: column;
+    perspective: 700px;
   }
 
-  .m-panel-info {
-    grid-area: info;
+  .panel-front {
+    flex-grow: 1;
+    border-width: 2px;
+    border-style: solid;
+    display: grid;
+    grid-template-columns: 85% 15%;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+  }
+
+  .panel-info {
     padding: 0.25rem;
     margin: 0.25rem 0.5rem 0.25rem 0.25rem;
-    display: flex;
-    align-items: center;
+    /* display: flex;
+    align-items: center; */
   }
 
-  .m-panel-coinslot {
-    grid-area: coinslot;
+  .panel-coinslot {
     height: 4.5em;
     background-color: var(--c-black);
     border-radius: 5px;
@@ -48,11 +67,11 @@ const { gameColor = "" } = Astro.props;
     margin-top: 0.375rem;
   }
 
-  .m-panel-coinslot p {
+  .panel-coinslot p {
     margin: 0.125rem 0 0;
   }
 
-  .m-panel-coinslot::after {
+  .panel-coinslot::after {
     content: "";
     display: block;
     position: absolute;
@@ -62,5 +81,57 @@ const { gameColor = "" } = Astro.props;
     height: 1.4em;
     background-color: var(--c-white);
     border-radius: 3px;
+  }
+
+  .panel-dash {
+    display: none;
+  }
+
+  .pd-visible {
+    display: flex;
+    margin: 0 auto;
+    background-color: var(--c-black);
+    width: 98%;
+    height: 50px;
+    transform: rotateX(30deg) translateY(2px);
+  }
+
+  .pf-borders {
+    border-left-color: var(--c-black);
+    border-right-color: var(--c-black);
+    border-bottom-color: var(--c-black);
+  }
+
+  .dash-dpad {
+    width: 50%;
+    height: 100%;
+  }
+
+  .dash-buttons {
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .g1, .g2 {
+    width: 25%;
+  }
+
+  .dash-button {
+    width: 15px;
+    height: 15px;
+    border-radius: 50px;
+  }
+
+  .b1,
+  .b3 {
+    background-color: var(--c-accent-yellow);
+  }
+
+  .b2,
+  .b4 {
+    background-color: var(--c-accent-pink);
+    margin-left: 20px;
   }
 </style>
