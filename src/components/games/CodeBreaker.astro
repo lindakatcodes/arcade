@@ -2,8 +2,8 @@
 
 ---
 
-<main>
-  <section class="cb-rules-wrapper">
+<div class="cb-main">
+  <!-- <section class="cb-rules-wrapper">
     <h2>Objective:</h2>
     <p>Guess the randomly generated 4 digit code.</p>
 
@@ -33,7 +33,7 @@
         </li>
       </ul>
     </details>
-  </section>
+  </section> -->
 
   <section class="cb-game-wrapper">
     <div>
@@ -63,7 +63,7 @@
       <div class="icon-guess"></div>
     </div>
   </section>
-</main>
+</div>
 
 <script is:inline>
   // @ts-nocheck
@@ -232,17 +232,15 @@
 </script>
 
 <style>
-  main {
-    margin-top: 20px;
-    width: 100dvw;
+  .cb-main {
     display: grid;
     align-items: center;
     justify-items: center;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    color: var(--c-black);
   }
 
   section {
-    width: 55dvw;
     padding: 0.5rem;
   }
 
@@ -251,6 +249,7 @@
   }
 
   input {
+    width: 100%;
     padding: 0.25rem;
   }
 
@@ -287,9 +286,9 @@
     margin-left: 0.25rem;
   }
 
-  .cb-rules {
+  /* .cb-rules {
     width: 520px;
-  }
+  } */
 
   .hidden {
     display: none;
@@ -307,7 +306,7 @@
   .results {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    width: 30rem;
+    /* width: 30rem; */
     margin: 0 auto;
   }
 

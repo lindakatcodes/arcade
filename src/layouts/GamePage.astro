@@ -13,17 +13,71 @@ const { game, gameColor } = Astro.props;
 ---
 
 <Layout title={game.data.title}>
-  <MachineHead name={game.data.title} gameColor={gameColor} />
-  <section class="game-screen">
-    <slot />
-  </section>
-  <MachinePanel gameColor={gameColor} >
-    <p>Some text for now to see where the panel is</p>
-  </MachinePanel>
+  <main>
+    <div class="left"></div>
+    <div class="middle">
+      <MachineHead name={game.data.title} gameColor={gameColor} />
+      <section class="screen">
+        <div class={`game ${gameColor}`}>
+          <slot />
+        </div>
+      </section>
+      <MachinePanel gameColor={gameColor} >
+        <p>Some text for now to see where the panel is</p>
+      </MachinePanel>
+    </div>
+    <div class="right"></div>
+  </main>
 </Layout>
 
 <style>
-  .game-screen {
-    width: 80%;
+  main {
+    display: grid;
+    grid-template-columns: 10% 80% 10%;
+    grid-template-rows: 10% 70% 20%;
+    background-color: var(--c-black);
+  }
+
+  .left {
+    grid-column: 1 / 2;
+    grid-row: 1 / 4;
+    height: 98vh;
+    width: 100%;
+  }
+
+  .right {
+    grid-column: 3 / 4;
+    grid-row: 1 / 4;
+    height: 98vh;
+    width: 100%;
+  }
+
+  .middle {
+    grid-column: 2 / 3;
+    grid-row: 1 / 4;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: subgrid;
+  }
+
+  .middle .m-head {
+    grid-row: 1 / 2;
+  }
+
+  .middle .screen {
+    grid-row: 2 / 3;
+  }
+
+  .game {
+    border-width: 2px;
+    border-style: ridge;
+    border-radius: 10px;
+    margin: 0.5rem;
+    background-color: var(--c-white);
+    height: calc(100% - 1rem);
+  }
+
+  .middle .m-panel {
+    grid-row: 3 / 4;
   }
 </style>
