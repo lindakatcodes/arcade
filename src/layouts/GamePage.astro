@@ -15,23 +15,38 @@ const { game, gameColor } = Astro.props;
 <Layout title={game.data.title}>
   <main>
     <div class="machine">
-      <div class={`left ${gameColor}`}>
-        <div class={`l-edge ${gameColor}`}></div>
-      </div>
+      <div class={`left ${gameColor}`}></div>
       <div class="middle">
-        <MachineHead name={game.data.title} gameColor={gameColor} shouldShow />
-        <section class="screen">
+        <MachineHead name={game.data.title} gameColor={gameColor} />
+        <div class={`head-depth ${gameColor}`}></div>
+        <section class={`screen ${gameColor}`}>
           <div class={`game ${gameColor}`}>
             <slot />
           </div>
         </section>
-        <MachinePanel gameColor={gameColor} shouldShow>
+        <div class={`panel-dash ${gameColor}`}>
+          <div class="dash-dpad">
+            <div class="dash-arrow a-up"></div>
+            <div class="dash-arrow a-left"></div>
+            <div class="dash-arrow a-right"></div>
+            <div class="dash-arrow a-down"></div>
+          </div>
+          <div class="dash-buttons">
+            <div class="g1">
+              <div class="dash-button b1"></div>
+              <div class="dash-button b2"></div>
+            </div>
+            <div class="g2">
+              <div class="dash-button b3"></div>
+              <div class="dash-button b4"></div>
+            </div>
+          </div>
+        </div>
+        <MachinePanel gameColor={gameColor}>
           <p>Some text for now to see where the panel is</p>
         </MachinePanel>
       </div>
-      <div class={`right ${gameColor}`}>
-        <div class={`r-edge ${gameColor}`}></div>
-      </div>
+      <div class={`right ${gameColor}`}></div>
     </div>
   </main>
 </Layout>
@@ -46,95 +61,170 @@ const { game, gameColor } = Astro.props;
   .machine {
     display: grid;
     grid-template-columns: 5% 90% 5%;
-    grid-template-rows: 10% 70% 20%;
+    grid-template-rows: 0.15fr 50px 1fr 50px 0.25fr;
+    justify-items: center;
     width: 100%;
-    max-width: 700px;
+    max-width: 800px;
     height: 100dvh;
   }
 
   .left {
     grid-column: 1 / 2;
-    grid-row: 1 / 4;
-    width: 100%;
-    background-color: var(--c-black);
-    border-width: 2px;
-    border-style: solid;
-    border-top-color: transparent;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-  }
-
-  .l-edge {
-    width: 0.8rem;
-    height: 85dvh;
-    border-radius: 0 0 1rem 0;
-    border-right-width: 6px;
+    grid-row: 1 / 6;
+    width: 95%;
+    border-right-width: 4px;
     border-right-style: solid;
-    border-bottom-width: 6px;
-    border-bottom-style: solid;
-    border-top-color: transparent;
-    border-left-color: transparent;
-    background-color: var(--c-base);
-    z-index: 1;
   }
 
   .right {
     grid-column: 3 / 4;
-    grid-row: 1 / 4;
-    width: 100%;
-    background-color: var(--c-black);
-    border-width: 2px;
-    border-style: solid;
-    border-top-color: transparent;
-    border-left-color: transparent;
-    border-bottom-color: transparent;
-  }
-
-  .r-edge {
-    width: 0.8rem;
-    height: 85dvh;
-    border-radius: 0 0 0 1rem;
-    border-left-width: 6px;
+    grid-row: 1 / 6;
+    width: 95%;
+    border-left-width: 4px;
     border-left-style: solid;
-    border-bottom-width: 6px;
-    border-bottom-style: solid;
-    border-top-color: transparent;
-    border-right-color: transparent;
-    background-color: var(--c-base);
-    z-index: 1;
-    float: right;
   }
 
   .middle {
     grid-column: 2 / 3;
-    grid-row: 1 / 4;
+    grid-row: 1 / 6;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: subgrid;
-    background-color: var(--c-base);
     width: 100%;
+    perspective: 600px;
   }
 
-  .middle .m-head {
-    grid-row: 1 / 2;
+  .head-depth {
+    background-color: var(--c-black);
+    width: 97.5%;
+    margin: 0 auto;
+    transform: rotateX(-36deg) scaleY(1.05);
+    border-width: 2px;
+    border-style: solid;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
   }
 
-  .middle .screen {
-    grid-row: 2 / 3;
-    border: 2px solid var(--c-black);
+  .screen {
+    transform: scaleX(0.95);
+    background-color: var(--c-base);
+    border-width: 2px;
+    border-style: solid;
   }
 
   .game {
-    border-width: 2px;
+    border-width: 4px;
     border-style: ridge;
     border-radius: 10px;
-    margin: 0.25rem 0.5rem;
+    margin: 0.5rem 0.75rem;
     background-color: var(--c-white);
-    height: calc(100% - 0.5rem);
-    transform: scaleX(0.95);
+    height: calc(100% - 1rem);
   }
 
-  .middle .m-panel {
-    grid-row: 3 / 4;
+  .panel-dash {
+    background-color: var(--c-base);
+    width: 97.5%;
+    margin: 0 auto;
+    transform: rotateX(35deg) scaleY(1.05);
+    border-width: 2px;
+    border-style: solid;
+    border-bottom-color: transparent;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .dash-dpad {
+    width: 45%;
+    height: 100%;
+    display: grid;
+    grid-template-areas:
+      "left up right"
+      "left down right";
+    grid-template-columns: 1fr 0.5fr 1fr;
+    align-content: center;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .dash-arrow {
+    width: 0;
+    height: 0;
+    border-width: 0.4rem;
+    border-style: solid;
+    border-radius: 3px;
+  }
+
+  .a-up {
+    grid-area: up;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    border-bottom-color: var(--c-white);
+    margin-bottom: 1.05rem;
+  }
+
+  @media (min-width: 600px) {
+    .dash-dpad {
+      grid-template-columns: 1fr 0.2fr 1fr;
+    }
+    .a-up {
+      margin-bottom: 0.9rem;
+    }
+  }
+
+  .a-left {
+    grid-area: left;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-right-color: var(--c-white);
+    justify-self: end;
+  }
+
+  .a-right {
+    grid-area: right;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    border-left-color: var(--c-white);
+    justify-self: start;
+  }
+
+  .a-down {
+    grid-area: down;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-top-color: var(--c-white);
+  }
+
+  .dash-buttons {
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .g1,
+  .g2 {
+    width: 35%;
+  }
+
+  .dash-button {
+    width: 15px;
+    height: 15px;
+    border-radius: 50px;
+    border: 1px outset var(--c-white);
+  }
+
+  .b1,
+  .b3 {
+    background-color: var(--c-accent-yellow);
+  }
+
+  .b2,
+  .b4 {
+    background-color: var(--c-accent-pink);
+    margin-left: 20px;
   }
 </style>
