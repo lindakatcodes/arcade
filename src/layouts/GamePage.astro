@@ -15,20 +15,20 @@ const { game, gameColor } = Astro.props;
 <Layout title={game.data.title}>
   <main>
     <div class="machine">
-    <div class="left"></div>
-    <div class="middle">
-      <MachineHead name={game.data.title} gameColor={gameColor} shouldShow />
-      <section class="screen">
-        <div class={`game ${gameColor}`}>
-          <slot />
-        </div>
-      </section>
-      <MachinePanel gameColor={gameColor} shouldShow >
-        <p>Some text for now to see where the panel is</p>
-      </MachinePanel>
+      <div class="left"></div>
+      <div class="middle">
+        <MachineHead name={game.data.title} gameColor={gameColor} shouldShow />
+        <section class="screen">
+          <div class={`game ${gameColor}`}>
+            <slot />
+          </div>
+        </section>
+        <MachinePanel gameColor={gameColor} shouldShow>
+          <p>Some text for now to see where the panel is</p>
+        </MachinePanel>
+      </div>
+      <div class="right"></div>
     </div>
-    <div class="right"></div>
-  </div>
   </main>
 </Layout>
 
@@ -43,7 +43,8 @@ const { game, gameColor } = Astro.props;
     display: grid;
     grid-template-columns: 5% 90% 5%;
     grid-template-rows: 10% 70% 20%;
-    max-width: 1000px;
+    width: 100%;
+    max-width: 700px;
   }
 
   .left {
