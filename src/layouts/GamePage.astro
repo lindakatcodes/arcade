@@ -15,7 +15,9 @@ const { game, gameColor } = Astro.props;
 <Layout title={game.data.title}>
   <main>
     <div class="machine">
-      <div class="left"></div>
+      <div class={`left ${gameColor}`}>
+        <div class={`l-edge ${gameColor}`}></div>
+      </div>
       <div class="middle">
         <MachineHead name={game.data.title} gameColor={gameColor} shouldShow />
         <section class="screen">
@@ -27,7 +29,9 @@ const { game, gameColor } = Astro.props;
           <p>Some text for now to see where the panel is</p>
         </MachinePanel>
       </div>
-      <div class="right"></div>
+      <div class={`right ${gameColor}`}>
+        <div class={`r-edge ${gameColor}`}></div>
+      </div>
     </div>
   </main>
 </Layout>
@@ -52,14 +56,53 @@ const { game, gameColor } = Astro.props;
     grid-column: 1 / 2;
     grid-row: 1 / 4;
     width: 100%;
-    background-color: var(--c-accent-pink);
+    background-color: var(--c-black);
+    border-width: 2px;
+    border-style: solid;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+  }
+
+  .l-edge {
+    width: 0.8rem;
+    height: 85dvh;
+    border-radius: 0 0 1rem 0;
+    border-right-width: 6px;
+    border-right-style: solid;
+    border-bottom-width: 6px;
+    border-bottom-style: solid;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    background-color: var(--c-base);
+    z-index: 1;
   }
 
   .right {
     grid-column: 3 / 4;
     grid-row: 1 / 4;
     width: 100%;
-    background-color: var(--c-accent-pink);
+    background-color: var(--c-black);
+    border-width: 2px;
+    border-style: solid;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+  }
+
+  .r-edge {
+    width: 0.8rem;
+    height: 85dvh;
+    border-radius: 0 0 0 1rem;
+    border-left-width: 6px;
+    border-left-style: solid;
+    border-bottom-width: 6px;
+    border-bottom-style: solid;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    background-color: var(--c-base);
+    z-index: 1;
+    float: right;
   }
 
   .middle {
