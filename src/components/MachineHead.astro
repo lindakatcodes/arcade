@@ -2,12 +2,13 @@
 interface Props {
   gameColor?: string;
   name: string;
+  needsBorderRadius: boolean;
 }
 
-const { gameColor = "", name } = Astro.props;
+const { gameColor = "", name, needsBorderRadius } = Astro.props;
 ---
 
-<section class={`head-name ${gameColor}`}>
+<section class:list={[`head-name ${gameColor}`, {'curved-border': needsBorderRadius}]}>
   <h2>{name}</h2>
 </section>
 
@@ -25,5 +26,9 @@ const { gameColor = "", name } = Astro.props;
   .head-name h2 {
     text-align: center;
     font-size: clamp(1.5rem, 1.5rem, 100%);
+  }
+
+  .curved-border {
+    border-radius: 41px 0 0 0 / 51px 0 0 0;
   }
 </style>

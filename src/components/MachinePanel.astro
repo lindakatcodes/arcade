@@ -1,12 +1,13 @@
 ---
 interface Props {
   gameColor?: string;
+  needsBorderRadius: boolean;
 }
 
-const { gameColor = "" } = Astro.props;
+const { gameColor = "", needsBorderRadius } = Astro.props;
 ---
 
-<section class:list={`panel-front ${gameColor}`}>
+<section class:list={[`panel-front ${gameColor}`, {'curved-border': needsBorderRadius}]}>
   <div class="panel-info">
     <slot />
   </div>
@@ -15,18 +16,17 @@ const { gameColor = "" } = Astro.props;
 
 <style>
   .panel-front {
+    display: grid;
+    grid-template-columns: 75% 12%;
+    justify-content: space-around;
+    background-color: var(--c-base);
+    margin-top: 5px;
     border-top-width: 4px;
     border-top-style: solid;
-    margin-top: 5px;
-    display: grid;
-    grid-template-columns: 85% 15%;
-    background-color: var(--c-base);
   }
-
-  @media (min-width: 600px) {
-    .panel-front {
-      grid-template-columns: 90% 10%;
-    }
+  
+  .curved-border {
+    border-radius: 0 0 41px 0 / 0 0 51px 0; 
   }
 
   .panel-info {

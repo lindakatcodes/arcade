@@ -15,22 +15,22 @@ const gameData = game.data;
 ---
 
 <a href={gameData.link} class={`card ${borderColor}`}>
-  <MachineHead gameColor={borderColor} name={gameData.title} />
+  <MachineHead gameColor={borderColor} name={gameData.title} needsBorderRadius />
   <section class={`card-screen ${borderColor}`}>
     <img src={gameData.photo} alt={gameData.photoAlt} />
   </section>
-  <MachinePanel gameColor={borderColor}>
+  <MachinePanel gameColor={borderColor} needsBorderRadius>
     <p class="card-panel-text">{gameData.tagline}</p>
   </MachinePanel>
 </a>
 
 <style>
   .card {
-    border-radius: 41px 0px 41px 0px / 51px 0px 51px 0px;
+    border-radius: 41px 0px / 51px 0px;
     border-width: 4px;
     border-style: groove;
     width: 300px;
-    height: calc(100% * 1.25);
+    height: 450px;
     color: var(--c-white);
     text-decoration: none;
     display: grid;

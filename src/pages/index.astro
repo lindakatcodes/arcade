@@ -36,6 +36,8 @@ const allGames = await getCollection('games');
     display: grid;
     justify-content: space-evenly;
     justify-items: center;
+    grid-auto-columns: 300px;
+    grid-auto-rows: 450px;
     grid-template-columns: repeat(auto-fit, minmax(300px, 0.3fr));
     gap: 1rem;
   }
