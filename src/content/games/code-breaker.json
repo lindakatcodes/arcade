@@ -4,5 +4,16 @@
   "tagline": "Crack the code in 10 guesses or less!",
   "tags": ["JavaScript", "HTML", "CSS"],
   "title": "Code Breaker",
-  "link": "./code-breaker"
+  "link": "./code-breaker",
+  "instructions": {
+    "overview": "Guess the randomly generated 4 digit code.",
+    "details": [
+      "Each guess must consist of 4 numeric characters.",
+      "Numbers may be used more than once.",
+      "Guess the correct code in 10 guesses or less to win!",
+      "✔ Indicates a number is in the correct place.",
+      "⇄ Indicates a number is part of the code but not in the right position (does not tell how many times the number exists in the answer).",
+      "✘ Indicates a number is not part of the code."
+    ]
+  }
 }

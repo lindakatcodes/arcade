@@ -14,9 +14,14 @@ const { game, gameColor } = Astro.props;
 
 <Layout title={game.data.title}>
   <main>
+    <button
+      type="button"
+      class="back-button"
+      onclick="history.back()">🡨 Back to all games</button
+    >
     <div class="machine">
       <div class={`left ${gameColor}`}></div>
-      <div class="middle">
+      <div class={`middle ${gameColor}`}>
         <MachineHead name={game.data.title} gameColor={gameColor} />
         <div class={`head-depth ${gameColor}`}></div>
         <section class={`screen ${gameColor}`}>
@@ -43,7 +48,17 @@ const { game, gameColor } = Astro.props;
           </div>
         </div>
         <MachinePanel gameColor={gameColor}>
-          <p>Some text for now to see where the panel is</p>
+          <p slot="info-slot">{game.data.instructions.overview}</p>
+          <details slot="details-slot">
+            <summary>How to Play:</summary>
+            <ul class="game-details-list">
+              {
+                game.data.instructions.details.map((detail) => {
+                  return <li>{detail}</li>;
+                })
+              }
+            </ul>
+          </details>
         </MachinePanel>
       </div>
       <div class={`right ${gameColor}`}></div>
@@ -58,6 +73,22 @@ const { game, gameColor } = Astro.props;
     place-items: center;
   }
 
+  .back-button {
+    justify-self: start;
+    font-size: 1.1rem;
+    margin: 0.5rem;
+    border: none;
+    background: none;
+    color: var(--c-white);
+    text-decoration: underline 2px var(--c-white);
+    transition: all 0.3s;
+  }
+
+  .back-button:hover {
+    color: var(--c-accent-yellow);
+    cursor: pointer;
+  }
+
   .machine {
     display: grid;
     grid-template-columns: 5% 90% 5%;
@@ -65,7 +96,7 @@ const { game, gameColor } = Astro.props;
     justify-items: center;
     width: 100%;
     max-width: 800px;
-    height: 100dvh;
+    height: calc(100dvh - 45px);
   }
 
   .left {
@@ -92,6 +123,8 @@ const { game, gameColor } = Astro.props;
     grid-template-rows: subgrid;
     width: 100%;
     perspective: 600px;
+    border-top-width: 4px;
+    border-top-style: solid;
   }
 
   .head-depth {
@@ -119,6 +152,10 @@ const { game, gameColor } = Astro.props;
     margin: 0.5rem 0.75rem;
     background-color: var(--c-white);
     height: calc(100% - 1rem);
+  }
+
+  .game-details-list {
+    padding-left: 30px;
   }
 
   .panel-dash {

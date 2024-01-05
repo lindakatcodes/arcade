@@ -20,7 +20,7 @@ const gameData = game.data;
     <img src={gameData.photo} alt={gameData.photoAlt} />
   </section>
   <MachinePanel gameColor={borderColor} needsBorderRadius>
-    <p class="card-panel-text">{gameData.tagline}</p>
+    <p class="card-panel-text" slot="info-slot">{gameData.tagline}</p>
   </MachinePanel>
 </a>
 
@@ -52,7 +52,7 @@ const gameData = game.data;
   }
 
   .card-panel-text {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     text-align: center;
   }
 </style>

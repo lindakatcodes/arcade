@@ -2,10 +2,10 @@
 interface Props {
   gameColor?: string;
   name: string;
-  needsBorderRadius: boolean;
+  needsBorderRadius?: boolean;
 }
 
-const { gameColor = "", name, needsBorderRadius } = Astro.props;
+const { gameColor = "", name, needsBorderRadius = false } = Astro.props;
 ---
 
 <section class:list={[`head-name ${gameColor}`, {'curved-border': needsBorderRadius}]}>

@@ -4,5 +4,13 @@
   "tagline": "Eat the food without touching your tail!",
   "tags": ["JavaScript", "HTML"],
   "title": "Snake",
-  "link": "./snake"
+  "link": "./snake",
+  "instructions": {
+    "overview": "Lead the snake to food without touching yourself or the screen.",
+    "details": [
+      "You are the small round dot, the snake! Your goal is to eat (move over) as many of the green square food pieces as you can, without hitting the sides or your body.",
+      "Your body grows longer with each piece of food you eat. Hit the edges or yourself and the game is over!",
+      "Move the snake with the arrow keys. You can hold an arrow down to continue in the same direction. This version does not run automatically, so you can take your time if you need to!"
+    ]
+  }
 }
