@@ -5,6 +5,7 @@
   "tags": ["JavaScript", "HTML"],
   "title": "Snake",
   "link": "./snake",
+  "mobileFriendly": false,
   "instructions": {
     "overview": "Lead the snake to food without touching yourself or the screen.",
     "details": [

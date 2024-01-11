@@ -2,33 +2,70 @@
 interface Props {
   gameColor?: string;
   name: string;
+  mobileFriendly?: boolean;
   needsBorderRadius?: boolean;
 }
 
-const { gameColor = "", name, needsBorderRadius = false } = Astro.props;
+const { gameColor = "", name, mobileFriendly = false, needsBorderRadius = false } = Astro.props;
 ---
 
-<section class:list={[`head-name ${gameColor}`, {'curved-border': needsBorderRadius}]}>
-  <h2>{name}</h2>
+<section class:list={[`head-wrapper ${gameColor}`, {'curved-border': needsBorderRadius}, {'hide-overflow': mobileFriendly}]}>
+  <div class="head-name">
+    <h2>{name}</h2>
+  </div>
+  {mobileFriendly && (
+    <div class="mobile-badge"><span>Mobile Friendly!</span></div>
+  )}
 </section>
 
 <style>
-  .head-name {
+  .head-wrapper {
     border-bottom-width: 4px;
     border-bottom-style: inset;
-    padding-top: 0.75rem;
     margin-bottom: 5px;
+    background-color: var(--c-base);
+    position: relative;
+  }
+  
+  .head-name {
     display: grid;
     place-items: center;
-    background-color: var(--c-base);
+    width: 100%;
+    height: 100%;
   }
-
+  
   .head-name h2 {
     text-align: center;
-    font-size: clamp(1.5rem, 1.5rem, 100%);
+    font-size: clamp(1.25rem, 1.25rem, 100%);
+  }
+  
+  .mobile-badge {
+    width: 5.25rem;
+    height: 5.25rem;
+    position: absolute;
+    top: -2.675rem;
+    right: -2.675rem;
+    background: var(--c-accent-yellow);
+    transform: rotate(-45deg);
+    writing-mode: vertical-rl;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  
+  .mobile-badge span {
+    height: 55%;
+    text-align: center;
+    color: var(--c-black);
+    font-size: 0.55rem;
+    font-weight: bold;
   }
 
   .curved-border {
     border-radius: 41px 0 0 0 / 51px 0 0 0;
+  }
+
+  .hide-overflow {
+    overflow: hidden;
   }
 </style>

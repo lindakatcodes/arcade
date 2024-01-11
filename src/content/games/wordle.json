@@ -5,6 +5,7 @@
   "tags": ["React", "HTML", "CSS"],
   "title": "Wordle",
   "link": "./wordle",
+  "mobileFriendly": true,
   "instructions": {
     "overview": "Guess the 5 letter word within 6 guesses!",
     "details": [

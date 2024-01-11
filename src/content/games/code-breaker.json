@@ -5,6 +5,7 @@
   "tags": ["JavaScript", "HTML", "CSS"],
   "title": "Code Breaker",
   "link": "./code-breaker",
+  "mobileFriendly": true,
   "instructions": {
     "overview": "Guess the randomly generated 4 digit code.",
     "details": [

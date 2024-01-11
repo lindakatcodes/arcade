@@ -30,7 +30,7 @@ body,
   font-size: var(--font-size-base);
   font-family: var(--body-font);
   color: var(--c-white);
-  background-color: var(--c-base);
+  background-color: var(--c-black);
 }
 
 body {

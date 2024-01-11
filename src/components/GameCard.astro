@@ -15,7 +15,7 @@ const gameData = game.data;
 ---
 
 <a href={gameData.link} class={`card ${borderColor}`}>
-  <MachineHead gameColor={borderColor} name={gameData.title} needsBorderRadius />
+  <MachineHead gameColor={borderColor} name={gameData.title} mobileFriendly={gameData.mobileFriendly} needsBorderRadius />
   <section class={`card-screen ${borderColor}`}>
     <img src={gameData.photo} alt={gameData.photoAlt} />
   </section>
@@ -32,6 +32,7 @@ const gameData = game.data;
     width: 300px;
     height: 450px;
     color: var(--c-white);
+    background: var(--c-base);
     text-decoration: none;
     display: grid;
     grid-template-rows: 0.4fr 1fr 0.6fr;
@@ -47,6 +48,7 @@ const gameData = game.data;
   .card-screen img {
     object-fit: cover;
     object-position: top left;
+    aspect-ratio: square;
     width: 100%;
     height: 100%;
   }
