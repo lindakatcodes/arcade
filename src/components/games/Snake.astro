@@ -2,26 +2,11 @@
 
 ---
 
-<main>
+<div class="snake-main">
   <div class="gameUi">
     <p class="score"></p>
     <p class="gameOver"></p>
     <button class="start" type="button">Start Game</button>
-  </div>
-  <div class="guide">
-    <details class="rules">
-      <summary>How to play:</summary>
-       - You are the small round dot, the snake! Your goal is to eat as many of
-      the green square food pieces as you can,
-      <em>without</em> hitting the sides or your body.
-      <br />
-       - Your body grows longer with each piece of food you eat. Hit the edges
-      or yourself and the game is over!
-      <br />
-       - Move the snake with the arrow keys. You can hold an arrow down to
-      continue in the same direction. This version does not run automatically,
-      so you can take your time if you need to!
-    </details>
   </div>
   <div class="canvasWrap" tab-index="0">
     <canvas width="800" height="1000" id="snake-body"></canvas>
@@ -276,26 +261,18 @@
     // start game on load
     startGame();
   </script>
-</main>
+</div>
 
 <style>
-  main {
-    margin-top: 50px;
-    width: 100vw;
+  .snake-main {
     display: grid;
     align-items: center;
     justify-items: center;
   }
 
-  .pageTitle {
-    text-align: center;
-    width: 100vw;
-  }
-
   .gameUi {
     display: flex;
     justify-content: space-around;
-    width: 400px;
     margin: 0 auto;
     text-align: center;
   }
@@ -316,12 +293,6 @@
     background: darkgray;
   }
 
-  .guide {
-    width: 400px;
-    font-size: 1.1rem;
-    margin-bottom: 1%;
-  }
-
   .canvasWrap {
     margin: 0 auto;
     display: flex;
@@ -331,8 +302,8 @@
   canvas {
     border: 5px solid darkorchid;
     border-radius: 10px;
-    width: 400px;
-    height: 500px;
+    width: 250px;
+    height: 450px;
     position: absolute;
   }
 

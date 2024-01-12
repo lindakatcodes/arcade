@@ -1,0 +1,75 @@
+---
+interface Props {
+  gameColor?: string;
+  needsBorderRadius?: boolean;
+}
+
+const { gameColor = "", needsBorderRadius = false } = Astro.props;
+---
+
+<section class:list={[`panel-front ${gameColor}`, {'curved-border': needsBorderRadius}]}>
+  <div class="panel-info">
+    <slot name="info-slot"/>
+    <div class="panel-coinslot"><p>¢</p></div>
+  </div>
+  {!needsBorderRadius && (
+    <div class="panel-details">
+      <slot name="details-slot" />
+    </div>
+  )}
+</section>
+
+<style>
+  .panel-front {
+    background-color: var(--c-base);
+    margin-top: 5px;
+    border-top-width: 4px;
+    border-top-style: solid;
+  }
+  
+  .curved-border {
+    border-radius: 0 0 41px 0 / 0 0 51px 0; 
+  }
+
+  .panel-info {
+    display: flex;
+    justify-content: space-around;
+    column-gap: 0.75rem;
+    padding: 0.25rem;
+    width: 95%;
+    margin: 0.25rem auto;
+  }
+
+  .panel-coinslot {
+    width: 2rem;
+    height: 4rem;
+    background-color: var(--c-black);
+    border-radius: 5px;
+    position: relative;
+    font-size: 0.8rem;
+    text-align: center;
+    font-family: var(--display-font);
+  }
+
+  .panel-coinslot p {
+    margin: 0.125rem 0 0;
+  }
+
+  .panel-coinslot::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 2em;
+    left: calc(50% - 0.2em);
+    width: 0.4em;
+    height: 1.4em;
+    background-color: var(--c-white);
+    border-radius: 3px;
+  }
+
+  .panel-details {
+    padding: 0.25rem;
+    width: 95%;
+    margin: 0.25rem auto 0.75rem;
+  }
+</style>

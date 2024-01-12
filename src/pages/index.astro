@@ -1,6 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Machine from "@components/Machine.astro";
+import GameCard from "@components/GameCard.astro";
 import { getCollection } from 'astro:content';
 
 const allGames = await getCollection('games');
@@ -8,26 +8,37 @@ const allGames = await getCollection('games');
 
 <Layout title="Linda's Arcade!">
   <main>
-    <h1>Welcome to the Arcade!</h1>
-    <section class="game-machines">
-      {allGames.map((game) => <Machine game={game} />)}
+    <section class="intro">
+      <p>Welcome to the</p>
+      <h1>Arcade!</h1>
+    </section>
+    <section class="games-wrapper">
+      {allGames.map((game, idx) => <GameCard game={game} idx={idx} />)}
     </section>
   </main>
 </Layout>
 
 <style>
   main {
-    padding: 2em;
+    padding: 2rem;
   }
 
-  h1 {
+  .intro {
     text-align: center;
+    margin-bottom: 3.5rem;
   }
 
-  .game-machines {
+  .intro p {
+    margin-bottom: -0.25rem;
+  }
+
+  .games-wrapper {
     display: grid;
-    place-items: center;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2%;
+    justify-content: space-evenly;
+    justify-items: center;
+    grid-auto-columns: 300px;
+    grid-auto-rows: 450px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 0.3fr));
+    gap: 1rem;
   }
 </style>

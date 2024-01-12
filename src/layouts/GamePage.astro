@@ -1,44 +1,270 @@
 ---
-import Header from "@components/Header.astro";
+import MachineHead from "@components/MachineHead.astro";
+import MachinePanel from "@components/MachinePanel.astro";
+import Layout from "@layouts/Layout.astro";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  title: string;
-  gameId: string;
+  game: CollectionEntry<"games">;
+  gameColor: string;
 }
 
-const { title, gameId } = Astro.props;
+const { game, gameColor } = Astro.props;
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" href="https://fav.farm/👾" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Poller+One&display=swap"
-      rel="stylesheet"
-    />
-    <title>{title}</title>
-  </head>
-  <body>
-    <Header gameId={gameId} />
-    <slot />
-  </body>
-</html>
+<Layout title={game.data.title}>
+  <main>
+    <button
+      type="button"
+      class="back-button"
+      onclick="history.back()">🡨 Back to all games</button
+    >
+    <div class="machine">
+      <div class={`left ${gameColor}`}></div>
+      <div class={`middle ${gameColor}`}>
+        <MachineHead name={game.data.title} gameColor={gameColor} />
+        <div class={`head-depth ${gameColor}`}></div>
+        <section class={`screen ${gameColor}`}>
+          <div class={`game ${gameColor}`}>
+            <slot />
+          </div>
+        </section>
+        <div class={`panel-dash ${gameColor}`}>
+          <div class="dash-dpad">
+            <div class="dash-arrow a-up"></div>
+            <div class="dash-arrow a-left"></div>
+            <div class="dash-arrow a-right"></div>
+            <div class="dash-arrow a-down"></div>
+          </div>
+          <div class="dash-buttons">
+            <div class="g1">
+              <div class="dash-button b1"></div>
+              <div class="dash-button b2"></div>
+            </div>
+            <div class="g2">
+              <div class="dash-button b3"></div>
+              <div class="dash-button b4"></div>
+            </div>
+          </div>
+        </div>
+        <MachinePanel gameColor={gameColor}>
+          <p slot="info-slot">{game.data.instructions.overview}</p>
+          <details slot="details-slot">
+            <summary>How to Play:</summary>
+            <ul class="game-details-list">
+              {
+                game.data.instructions.details.map((detail) => {
+                  return <li>{detail}</li>;
+                })
+              }
+            </ul>
+          </details>
+        </MachinePanel>
+      </div>
+      <div class={`right ${gameColor}`}></div>
+    </div>
+  </main>
+</Layout>
 
 <style>
-  @import "@styles/global.css";
-
-  html,
-  body {
-    margin: 0;
-    padding: 0;
+  main {
+    background-color: var(--c-black);
+    display: grid;
+    place-items: center;
   }
 
-  * {
-    box-sizing: border-box;
+  .back-button {
+    justify-self: start;
+    font-size: 1.1rem;
+    margin: 0.5rem;
+    border: none;
+    background: none;
+    color: var(--c-white);
+    text-decoration: underline 2px var(--c-white);
+    transition: all 0.3s;
+  }
+
+  .back-button:hover {
+    color: var(--c-accent-yellow);
+    cursor: pointer;
+  }
+
+  .machine {
+    display: grid;
+    grid-template-columns: 5% 90% 5%;
+    grid-template-rows: 0.15fr 50px 1fr 50px 0.25fr;
+    justify-items: center;
+    width: 100%;
+    max-width: 800px;
+    height: calc(100dvh - 45px);
+    margin-bottom: 10px;
+  }
+
+  .left {
+    grid-column: 1 / 2;
+    grid-row: 1 / 6;
+    width: 95%;
+    border-right-width: 4px;
+    border-right-style: solid;
+  }
+
+  .right {
+    grid-column: 3 / 4;
+    grid-row: 1 / 6;
+    width: 95%;
+    border-left-width: 4px;
+    border-left-style: solid;
+  }
+
+  .middle {
+    grid-column: 2 / 3;
+    grid-row: 1 / 6;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: subgrid;
+    width: 100%;
+    perspective: 600px;
+    border-top-width: 4px;
+    border-top-style: solid;
+    border-bottom-width: 4px;
+    border-bottom-style: solid;
+  }
+
+  .head-depth {
+    background-color: var(--c-black);
+    width: 97.5%;
+    margin: 0 auto;
+    transform: rotateX(-36deg) scaleY(1.05);
+    border-width: 2px;
+    border-style: solid;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+  }
+
+  .screen {
+    transform: scaleX(0.95);
+    background-color: var(--c-base);
+    border-width: 2px;
+    border-style: solid;
+  }
+
+  .game {
+    border-width: 4px;
+    border-style: ridge;
+    border-radius: 10px;
+    margin: 0.5rem 0.75rem;
+    background-color: var(--c-white);
+    height: calc(100% - 1rem);
+  }
+
+  .game-details-list {
+    padding-left: 30px;
+  }
+
+  .panel-dash {
+    background-color: var(--c-base);
+    width: 97.5%;
+    margin: 0 auto;
+    transform: rotateX(35deg) scaleY(1.05);
+    border-width: 2px;
+    border-style: solid;
+    border-bottom-color: transparent;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .dash-dpad {
+    width: 45%;
+    height: 100%;
+    display: grid;
+    grid-template-areas:
+      "left up right"
+      "left down right";
+    grid-template-columns: 1fr 0.5fr 1fr;
+    align-content: center;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .dash-arrow {
+    width: 0;
+    height: 0;
+    border-width: 0.4rem;
+    border-style: solid;
+    border-radius: 3px;
+  }
+
+  .a-up {
+    grid-area: up;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    border-bottom-color: var(--c-white);
+    margin-bottom: 1.05rem;
+  }
+
+  @media (min-width: 600px) {
+    .dash-dpad {
+      grid-template-columns: 1fr 0.2fr 1fr;
+    }
+    .a-up {
+      margin-bottom: 0.9rem;
+    }
+  }
+
+  .a-left {
+    grid-area: left;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-right-color: var(--c-white);
+    justify-self: end;
+  }
+
+  .a-right {
+    grid-area: right;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    border-left-color: var(--c-white);
+    justify-self: start;
+  }
+
+  .a-down {
+    grid-area: down;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-top-color: var(--c-white);
+  }
+
+  .dash-buttons {
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .g1,
+  .g2 {
+    width: 35%;
+  }
+
+  .dash-button {
+    width: 15px;
+    height: 15px;
+    border-radius: 50px;
+    border: 1px outset var(--c-white);
+  }
+
+  .b1,
+  .b3 {
+    background-color: var(--c-accent-yellow);
+  }
+
+  .b2,
+  .b4 {
+    background-color: var(--c-accent-pink);
+    margin-left: 20px;
   }
 </style>

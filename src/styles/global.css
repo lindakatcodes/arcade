@@ -1,37 +1,44 @@
 :root {
-  --base-color: #31175b;
-  --base-color-darker: #1a0c30;
-  --text-color: #edf1fa;
-  --accent-color-pink: #da62c4;
-  --accent-color-pink-darker: #ac2893;
-  --accent-color-yellow: #f4d752;
-  --accent-color-blue: #229fff;
-  --accent-color-purple: #4f39fa;
-  --accent-color-green: #33f06f;
-  --body-font: "DM Serif Text", serif;
-  --display-font: "Poller One", cursive;
+  --c-base: #2C1452;
+  --c-white: #edf1fa;
+  --c-black: #1a0c30;
+  --c-accent-pink: #ff6eb9;
+  --c-accent-yellow: #f4d652;
+  --c-accent-green: #36e16c;
+  --body-font: "Inter", sans-serif;
+  --display-font: "Poller One", sans-serif;
   --font-size-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
   --font-size-lg: clamp(1.2rem, 0.7vw + 1.2rem, 1.5rem);
   --font-size-xl: clamp(2.44rem, 2.38vw + 1.85rem, 3.75rem);
 }
+
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
+
 * {
   margin: 0;
 }
+
 html,
 body,
 #root {
   height: 100%;
+  font-size: var(--font-size-base);
+  font-family: var(--body-font);
+  color: var(--c-white);
+  background-color: var(--c-black);
 }
+
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  margin: 0;
 }
+
 img,
 picture,
 video,
@@ -40,12 +47,14 @@ svg {
   display: block;
   max-width: 100%;
 }
+
 input,
 button,
 textarea,
 select {
   font: inherit;
 }
+
 p,
 h1,
 h2,
@@ -55,6 +64,7 @@ h5,
 h6 {
   overflow-wrap: break-word;
 }
+
 #root,
 #__next {
   isolation: isolate;

@@ -1,5 +1,5 @@
 import React from "react";
-import { range } from "../../utils/helpers";
+import { range } from "../../../utils/helpers";
 
 const rows = [
   ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],

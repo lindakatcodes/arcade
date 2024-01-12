@@ -1,6 +1,6 @@
 import React from "react";
-import Guess from "../WordleComponents/Guess";
-import { range } from "../../utils/helpers";
+import Guess from "./Guess";
+import { range } from "../../../utils/helpers";
 
 export default function GuessList({ guessList, answer }) {
   return (

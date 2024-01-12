@@ -1,5 +1,5 @@
 import React from "react";
-import { range } from "../../utils/helpers";
+import { range } from "../../../utils/helpers";
 
 // hadn't thought of this - having another "component" within the same file
 // only decent when the component is small and only used by the main file component

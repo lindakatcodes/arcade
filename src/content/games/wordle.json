@@ -4,5 +4,16 @@
   "tagline": "Guess the word in 6 guesses or less!",
   "tags": ["React", "HTML", "CSS"],
   "title": "Wordle",
-  "link": "./wordle"
+  "link": "./wordle",
+  "mobileFriendly": true,
+  "instructions": {
+    "overview": "Guess the 5 letter word within 6 guesses!",
+    "details": [
+      "Use your keyboard to type a 5 letter word. Press the Enter key to submit your guess.",
+      "The word you guessed will fill into the game board, with a color behind each letter to provide hints on how close you are.",
+      "Green background means that letter is in the right place.",
+      "Yellow background means the letter is in the word but in another place.",
+      "Gray background means that letter is not in the word."
+    ]
+  }
 }
