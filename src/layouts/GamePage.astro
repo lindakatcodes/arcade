@@ -17,7 +17,7 @@ const { game, gameColor } = Astro.props;
     <button
       type="button"
       class="back-button"
-      onclick="history.back()">🡨 Back to all games</button
+      onclick="history.back()">🡨 Back to the arcade</button
     >
     <div class="machine">
       <div class={`left ${gameColor}`}></div>
@@ -92,11 +92,11 @@ const { game, gameColor } = Astro.props;
   .machine {
     display: grid;
     grid-template-columns: 5% 90% 5%;
-    grid-template-rows: 0.15fr 50px 1fr 50px 0.25fr;
+    grid-template-rows: 50px 50px 1fr 50px 1fr;
     justify-items: center;
     width: 100%;
     max-width: 800px;
-    height: calc(100dvh - 45px);
+    height: calc(100dvh - 50px);
     margin-bottom: 10px;
   }
 
@@ -133,6 +133,7 @@ const { game, gameColor } = Astro.props;
   .head-depth {
     background-color: var(--c-black);
     width: 97.5%;
+    height: 50px;
     margin: 0 auto;
     transform: rotateX(-36deg) scaleY(1.05);
     border-width: 2px;
@@ -164,6 +165,7 @@ const { game, gameColor } = Astro.props;
   .panel-dash {
     background-color: var(--c-base);
     width: 97.5%;
+    height: 50px;
     margin: 0 auto;
     transform: rotateX(35deg) scaleY(1.05);
     border-width: 2px;
