@@ -14,10 +14,10 @@ const { game, gameColor } = Astro.props;
 
 <Layout title={game.data.title}>
   <main>
-    <button
+    <a
+      href="/"
       type="button"
-      class="back-button"
-      onclick="history.back()">🡨 Back to the arcade</button
+      class="back-button">🡨 Back to the arcade</a
     >
     <div class="machine">
       <div class={`left ${gameColor}`}></div>
