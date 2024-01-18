@@ -9,13 +9,22 @@ interface Props {
 const { gameColor = "", name, mobileFriendly = false, needsBorderRadius = false } = Astro.props;
 ---
 
-<section class:list={[`head-wrapper ${gameColor}`, {'curved-border': needsBorderRadius}, {'hide-overflow': mobileFriendly}]}>
+<!-- 
+  Swap back to this HTML when ready to use the mobile friendly badge:
+  <section class:list={[`head-wrapper ${gameColor}`, {'curved-border': needsBorderRadius}, {'hide-overflow': mobileFriendly}]}>
+    <div class="head-name">
+      <h2>{name}</h2>
+    </div>
+    {mobileFriendly && (
+      <div class="mobile-badge"><span>Mobile Friendly!</span></div>
+    )}
+  </section>
+-->
+
+<section class:list={[`head-wrapper ${gameColor}`, {'curved-border': needsBorderRadius}]}>
   <div class="head-name">
     <h2>{name}</h2>
   </div>
-  <!-- {mobileFriendly && (
-    <div class="mobile-badge"><span>Mobile Friendly!</span></div>
-  )} -->
 </section>
 
 <style>
