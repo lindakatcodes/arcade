@@ -22,9 +22,9 @@ const { gameColor = "", needsBorderRadius = false } = Astro.props;
 <style>
   .panel-front {
     background-color: var(--c-base);
-    margin-top: 5px;
     border-top-width: 4px;
     border-top-style: solid;
+    z-index: 1;
   }
   
   .curved-border {
@@ -70,6 +70,7 @@ const { gameColor = "", needsBorderRadius = false } = Astro.props;
   .panel-details {
     padding: 0.25rem;
     width: 95%;
+    height: 25rem;
     margin: 0.25rem auto 0.75rem;
   }
 </style>

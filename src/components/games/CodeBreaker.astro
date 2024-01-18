@@ -1,94 +1,79 @@
 ---
+
 ---
 
 <div class="cb-main">
-  <section class="cb-game-wrapper">
-    <div>
-      <p class="final-result">????</p>
-      <p class="message"></p>
-    </div>
+  <div>
+    <p class="final-result">????</p>
+    <p class="message"></p>
+  </div>
 
-    <form class="guessing-div form-inline">
-      <input type="hidden" id="attempt" />
-      <input type="hidden" id="answer" />
-      <input id="user-guess" class="form-control" type="number" />
-      <button class="form-button">Submit Guess</button>
-    </form>
+  <form class="guessing-form">
+    <input type="hidden" id="attempt-count" value="0" />
+    <input type="hidden" id="answer" />
+    <input type="number" id="user-guess" />
+    <button id="form-button">Submit Guess</button>
+  </form>
 
-    <div class="replay-div hidden">
-      <button class="replay-button">Play again?</button>
-    </div>
-
-    <div class="results">
-      <div>
-        <strong>Guess</strong>
-      </div>
-      <div>
-        <strong>Result</strong>
-      </div>
-      <div class="text-guess"></div>
-      <div class="icon-guess"></div>
-    </div>
-  </section>
+  <div class="results">
+    <p><strong>Guess</strong></p>
+    <p><strong>Result</strong></p>
+    <div class="text-guess"></div>
+    <div class="icon-guess"></div>
+  </div>
 </div>
 
 <script is:inline>
   // @ts-nocheck
-  // all the query selectors
+  // all the query selectors + game state variable
   let answer = document.querySelector("#answer");
-  let attemptCount =
-    document.querySelector("#attempt");
-  let userInput =
-    document.querySelector("#user-guess");
+  let attemptCount = document.querySelector("#attempt-count");
+  let userInput = document.querySelector("#user-guess");
   let finalResult = document.querySelector(".final-result");
   let message = document.querySelector(".message");
   let guessesBox = document.querySelector(".text-guess");
-  let encodedGuessesBox =
-    document.querySelector(".icon-guess");
+  let encodedGuessesBox = document.querySelector(".icon-guess");
+  let formBtn = document.querySelector("#form-button");
+  let gameComplete = false;
 
-  // event listeners for buttons
-  document.querySelector(".form-button").addEventListener("click", (e) => {
-    guess(e);
-  });
-
-  document.querySelector(".replay-button")?.addEventListener("click", () => {
-    resetAnswerValues();
-    userInput.value = "";
-    finalResult.innerHTML = "????";
-    finalResult.classList.remove("success");
-    finalResult.classList.remove("error");
-    message.innerHTML = "";
-    message.classList.remove("success");
-    message.classList.remove("error");
-    guessesBox.innerHTML = "";
-    encodedGuessesBox.innerHTML = "";
-    toggleReplayButton();
+  // event listeners
+  formBtn?.addEventListener("click", (e) => {
+    gameComplete ? resetGame() : guess(e);
   });
 
   // helper functions
-  function toggleReplayButton() {
-    document.querySelector(".guessing-div").classList.toggle("hidden");
-    document.querySelector(".replay-div").classList.toggle("hidden");
+  function resetGame() {
+    finalResult.innerHTML = "????";
+    finalResult.classList.remove("success", "error");
+    message.innerHTML = "";
+    message.classList.remove("success", "error");
+    attemptCount.value = "0";
+    userInput.value = "";
+    userInput.disabled = false;
+    formBtn.innerText = "Submit Guess";
+    guessesBox.innerHTML = "";
+    encodedGuessesBox.innerHTML = "";
+    gameComplete = false;
+    generateNewCode();
   }
 
-  function resetAnswerValues() {
+  function generateNewCode() {
     answer.value = Math.floor(Math.random() * 9999).toString();
     // if the random number is not 4 values long, pad the front with zeroes
     while (answer.value.length < 4) {
       answer.value = "0" + answer.value;
     }
-    attemptCount.value = "0";
   }
 
   function setMessage(text, type) {
     message.innerHTML = text;
     if (type) {
-      if (type === 'success') {
-        message.classList.add('success');
-        message.classList.remove('error');
-      } else if (type === 'error') {
-        message.classList.add('error');
-        message.classList.remove('success');
+      if (type === "success") {
+        message.classList.add("success");
+        message.classList.remove("error");
+      } else if (type === "error") {
+        message.classList.add("error");
+        message.classList.remove("success");
       }
     }
   }
@@ -97,19 +82,14 @@
     if (param.length === 4) {
       return true;
     } else {
-      setMessage("Guesses must be exactly 4 characters long.", "error");
+      setMessage("Guesses must be exactly 4 numbers long.", "error");
       return false;
     }
   }
 
-  function showAnswer(gotIt) {
+  function showAnswer(classname) {
     finalResult.innerHTML = answer.value;
-
-    if (gotIt) {
-      finalResult.classList.add("success");
-    } else {
-      finalResult.classList.add("error");
-    }
+    finalResult.classList.add(classname);
   }
 
   // show the user a visual of their last guess and which numbers are in which position
@@ -121,7 +101,7 @@
     const rightAnswer = answer.value;
     let encodedAnswer = document.createElement("p");
     const regularAnswer = document.createElement("p");
-    regularAnswer.innerHTML += userGuess;
+    regularAnswer.innerHTML = userGuess;
 
     for (let i = 0; i < 4; i++) {
       let current = userGuess.charAt(i);
@@ -134,17 +114,14 @@
       }
     }
 
-    encodedAnswer.style.marginTop = '0';
-    encodedAnswer.style.marginBottom = '0.25rem';
-    regularAnswer.style.marginTop = '0';
-    regularAnswer.style.marginBottom = '0.25rem';
+    regularAnswer.style = "margin: 0";
+    encodedAnswer.style = "margin: 0";
 
     guessesBox.append(regularAnswer);
     encodedGuessesBox.append(encodedAnswer);
   }
 
-  // returns a boolean based on the number of correct numbers in the guess
-  function getResults(userGuess) {
+  function hasCorrectAnswer(userGuess) {
     let correctNumbers = 0;
     const rightAnswer = answer.value;
 
@@ -162,40 +139,47 @@
     }
   }
 
+  function endGame() {
+    userInput.disabled = true;
+    formBtn.innerText = "Play Again?";
+    gameComplete = true;
+  }
+
   // main game function
   function guess(e) {
     e.preventDefault();
 
-    // for initial load or reset
-    if (answer.value === "" || attemptCount.value === "") {
-      resetAnswerValues();
-    }
-
-    // making sure to convert here and use this when changing the value so it does math right ;)
+    // break early if the input length isn't right; otherwise add an attempt
     let attempts = Number(attemptCount.value);
-
     if (!validateInputLength(userInput.value)) {
       return false;
     } else {
       attempts += 1;
     }
 
+    // add the guess result to the board
     setResultDetails(userInput.value);
-    let guessIsRight = getResults(userInput.value);
+    const guessIsRight = hasCorrectAnswer(userInput.value);
     attemptCount.value = attempts.toString();
 
+    // show a message and update the board based on the result
     if (guessIsRight) {
       setMessage("You Win! :)", "success");
-      showAnswer(true);
-      toggleReplayButton();
-    } else if (!guessIsRight && attempts >= 10) {
+      showAnswer("success");
+      endGame();
+    } else if (!guessIsRight && attempts === 10) {
       setMessage("You Lose! :(", "error");
-      showAnswer(false);
-      toggleReplayButton();
+      showAnswer("error");
+      endGame();
     } else {
       setMessage("Incorrect, please try again.");
     }
+
+    userInput.value = "";
   }
+
+  // run this at the start so we always start with a code to guess
+  generateNewCode();
 </script>
 
 <style>
@@ -205,27 +189,11 @@
     justify-items: center;
     font-size: 1rem;
     color: var(--c-black);
-  }
-
-  section {
     padding: 0.5rem;
   }
 
-  li {
-    margin-bottom: 0.25rem;
-  }
-
-  input {
-    width: 100%;
-    padding: 0.25rem;
-  }
-
-  button {
-    padding: 0.25rem;
-  }
-
   .final-result {
-    font-size: 50px;
+    font-size: 32px;
     text-align: center;
     font-weight: bold;
   }
@@ -241,45 +209,36 @@
   .message {
     font-weight: bold;
     text-align: center;
-    height: 1.1rem;
-    margin-bottom: 1.5rem;
+    height: 0.8rem;
+    font-size: 0.8rem;
   }
 
-  .form-inline {
-    margin-bottom: 3.5rem;
-  }
-
-  .form-button {
-    margin-left: 0.25rem;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  .guessing-div {
+  .guessing-form {
     text-align: center;
+    margin: 0.75rem 0;
   }
 
-  .replay-div {
-    text-align: center;
-    margin-bottom: 3.5rem;
+  input {
+    width: 45%;
+    padding: 0.25rem;
+  }
+
+  button {
+    padding: 0.25rem 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+  p, .text-guess p, .icon-guess p {
+    margin: 0;
   }
 
   .results {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1.2rem 1fr;
+    column-gap: 2.5rem;
     margin: 0 auto;
-  }
-
-  .results div {
-    width: 100%;
     text-align: center;
-  }
-
-  .text-guess,
-  .icon-guess {
-    display: grid;
-    grid-template-columns: 1fr;
+    height: 18.75rem;
   }
 </style>

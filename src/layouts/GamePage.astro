@@ -14,10 +14,10 @@ const { game, gameColor } = Astro.props;
 
 <Layout title={game.data.title}>
   <main>
-    <button
+    <a
+      href="/"
       type="button"
-      class="back-button"
-      onclick="history.back()">🡨 Back to all games</button
+      class="back-button">🡨 Back to the arcade</a
     >
     <div class="machine">
       <div class={`left ${gameColor}`}></div>
@@ -92,11 +92,11 @@ const { game, gameColor } = Astro.props;
   .machine {
     display: grid;
     grid-template-columns: 5% 90% 5%;
-    grid-template-rows: 0.15fr 50px 1fr 50px 0.25fr;
+    grid-template-rows: 70px 50px 1fr 50px 1fr;
     justify-items: center;
     width: 100%;
     max-width: 800px;
-    height: calc(100dvh - 45px);
+    height: calc(100dvh - 50px);
     margin-bottom: 10px;
   }
 
@@ -132,13 +132,16 @@ const { game, gameColor } = Astro.props;
 
   .head-depth {
     background-color: var(--c-black);
-    width: 97.5%;
+    width: 97.75%;
+    height: 40px;
     margin: 0 auto;
-    transform: rotateX(-36deg) scaleY(1.05);
+    transform: rotateX(-48deg) scaleY(1.05);
     border-width: 2px;
     border-style: solid;
     border-top-color: transparent;
     border-bottom-color: transparent;
+    position: relative;
+    top: 4px;
   }
 
   .screen {
@@ -146,6 +149,8 @@ const { game, gameColor } = Astro.props;
     background-color: var(--c-base);
     border-width: 2px;
     border-style: solid;
+    position: relative;
+    top: 4px;
   }
 
   .game {
@@ -163,14 +168,17 @@ const { game, gameColor } = Astro.props;
 
   .panel-dash {
     background-color: var(--c-base);
-    width: 97.5%;
+    width: 97.75%;
+    height: 52px;
     margin: 0 auto;
-    transform: rotateX(35deg) scaleY(1.05);
+    transform: rotateX(36deg) scaleY(1.05);
     border-width: 2px;
     border-style: solid;
     border-bottom-color: transparent;
     display: flex;
     justify-content: space-evenly;
+    position: relative;
+    bottom: 0;
   }
 
   .dash-dpad {
