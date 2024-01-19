@@ -2,15 +2,15 @@
 
 ---
 
-<div class="snake-main">
+<div class="snakeMain">
   <div class="gameUi">
-    <p class="score"></p>
     <p class="gameOver"></p>
+    <p class="score"><span class="num"></span></p>
     <button class="start" type="button">Start Game</button>
   </div>
   <div class="canvasWrap" tab-index="0">
-    <canvas width="800" height="1000" id="snake-body"></canvas>
-    <canvas width="800" height="1000" id="food"></canvas>
+    <canvas width="300" height="400" id="snake-body"></canvas>
+    <canvas width="300" height="400" id="food"></canvas>
   </div>
 
   <script is:inline>
@@ -35,8 +35,8 @@
     // variables for sizes, score, and game active status
     let snakeLength = 5;
     const MOVE_SIZE = 5;
-    const SIZE = 15;
-    const RM_SIZE = 20;
+    const SIZE = 10;
+    const RM_SIZE = 15;
     let score = 0;
     let gameActive = false;
 
@@ -263,30 +263,39 @@
   </script>
 </div>
 
+<style is:inline>
+  .num {
+    font-weight: bold;
+    color: darkorchid;
+  }
+</style>
+
 <style>
-  .snake-main {
+  .snakeMain {
     display: grid;
     align-items: center;
     justify-items: center;
+    row-gap: 0.5rem;
+    background: white;
+    padding: 0.5rem 0;
   }
 
   .gameUi {
     display: flex;
     justify-content: space-around;
+    align-items: center;
+    width: 65%;
     margin: 0 auto;
     text-align: center;
-  }
-
-  .num {
-    font-weight: bold;
-    color: darkorchid;
+    color: var(--c-black);
+    font-size: 0.9rem;
   }
 
   .start {
-    padding: 3% 1.5%;
-    align-self: center;
+    padding: 1.5%;
     background: #2e86c1;
     color: white;
+    width: 6rem;
   }
 
   .disabled {
@@ -297,13 +306,15 @@
     margin: 0 auto;
     display: flex;
     justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 10px;
+    width: 325px;
+    height: 425px;
   }
 
   canvas {
-    border: 5px solid darkorchid;
-    border-radius: 10px;
-    width: 250px;
-    height: 450px;
+    border: 4px solid darkorchid;
     position: absolute;
   }
 
