@@ -31,7 +31,6 @@ const { gameColor = "", name, mobileFriendly = false, needsBorderRadius = false 
   .head-wrapper {
     border-bottom-width: 4px;
     border-bottom-style: inset;
-    margin-bottom: 5px;
     background-color: var(--c-base);
     position: relative;
     z-index: 1;
@@ -47,10 +46,14 @@ const { gameColor = "", name, mobileFriendly = false, needsBorderRadius = false 
   .head-name h2 {
     text-align: center;
     font-size: clamp(1.25rem, 1.25rem, 100%);
-    margin: 0;
+    margin: 0.5rem 0;
+  }
+
+  .curved-border {
+    border-radius: 41px 0 0 0 / 51px 0 0 0;
   }
   
-  .mobile-badge {
+  /* .mobile-badge {
     width: 5.25rem;
     height: 5.25rem;
     position: absolute;
@@ -70,13 +73,9 @@ const { gameColor = "", name, mobileFriendly = false, needsBorderRadius = false 
     color: var(--c-black);
     font-size: 0.55rem;
     font-weight: bold;
-  }
+  } */
 
-  .curved-border {
-    border-radius: 41px 0 0 0 / 51px 0 0 0;
-  }
-
-  .hide-overflow {
+  /* .hide-overflow {
     overflow: hidden;
-  }
+  } */
 </style>

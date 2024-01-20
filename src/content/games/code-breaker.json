@@ -1,5 +1,5 @@
 {
-  "photo": "./game-photos/code-breaker.png",
+  "photo": "/src/assets/code-breaker.png",
   "photoAlt": "A white screen with two sections. The objective and rules are on the right side. The left side has the title Code Breaker, with a correct green guess of 7963 underneath. Below that, a gray button says Play again, and the user's previous guesses are listed below.",
   "tagline": "Crack the code in 10 guesses or less!",
   "tags": ["JavaScript", "HTML", "CSS"],
